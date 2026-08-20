@@ -1,4 +1,4 @@
-﻿# OT/ICS Cybersecurity Homelab
+﻿\# OT/ICS Cybersecurity Homelab
 
 
 
@@ -6,15 +6,15 @@ A production-grade OT/ICS network testbed designed to model water utility infras
 
 
 
-**Audience:** OT/ICS Security Engineers, Infrastructure Engineers, and Security Assessment Professionals
+\*\*Audience:\*\* OT/ICS Security Engineers, Infrastructure Engineers, and Security Assessment Professionals
 
 
 
----
+\---
 
 
 
-# Project Goal
+\## Project Goal
 
 
 
@@ -22,19 +22,19 @@ Demonstrate hands-on engineering capability in OT/ICS network design, segmentati
 
 
 
-This is not a tutorial reproduction. Every design decision, troubleshooting session, and configuration change is documented with clear justification of **why** the approach was chosen.
+This is not a tutorial reproduction. Every design decision, troubleshooting session, and configuration change is documented with clear justification of \*\*why\*\* the approach was chosen.
 
 
 
----
+\---
 
 
 
-# Architecture Overview
+\## Architecture Overview
 
 
 
-## Purdue Model Implementation
+\### Purdue Model Implementation
 
 
 
@@ -42,17 +42,21 @@ The homelab follows the Purdue Model (ISA-95) with functional zones representing
 
 
 
-- **Level 0 - Field/Control:** PLC-based process control and sensor/actuator interfaces
+\- \*\*Level 0 - Field/Control:\*\* PLC-based process control and sensor/actuator interfaces
 
-- **Level 1 - Supervisory Control:** SCADA HMI, historian, and real-time monitoring
+\- \*\*Level 1 - Supervisory Control:\*\* SCADA HMI, historian, and real-time monitoring
 
-- **Level 2 - Operations Management:** Engineering workstations and configuration access
+\- \*\*Level 2 - Operations Management:\*\* Engineering workstations and configuration access
 
-- **Level 3 - Enterprise Integration:** Monitoring, logging, and security analytics
+\- \*\*Level 3 - Enterprise Integration:\*\* Monitoring, logging, and security analytics
 
 
 
-## Network Topology
+\---
+
+
+
+\### Network Topology
 
 
 
@@ -68,7 +72,7 @@ Proxmox Host (192.168.1.250)
 
 |-- vmbr10 (PLC Network) -> 192.168.10.0/24
 
-|   \-- VM101: PLC Controller (192.168.10.100)
+|   \\-- VM101: PLC Controller (192.168.10.100)
 
 |
 
@@ -76,19 +80,19 @@ Proxmox Host (192.168.1.250)
 
 |   |-- VM100: HMI/SCADA (192.168.20.100)
 
-|   \-- VM102: Historian/Database (192.168.20.101)
+|   \\-- VM102: Historian/Database (192.168.20.101)
 
 |
 
 |-- vmbr30 (Engineering) -> 192.168.30.0/24
 
-|   \-- VM103: Engineering Workstation (192.168.30.100)
+|   \\-- VM103: Engineering Workstation (192.168.30.100)
 
 |
 
-\-- vmbr40 (Monitoring/Security) -> 192.168.40.0/24
+\\-- vmbr40 (Monitoring/Security) -> 192.168.40.0/24
 
-    \-- VM104: IDS/Monitoring (192.168.40.100)
+&#x20;   \\-- VM104: IDS/Monitoring (192.168.40.100)
 
 ```
 
@@ -98,61 +102,61 @@ Each zone is isolated on its own bridge with configurable inter-zone routing and
 
 
 
----
+\---
 
 
 
-## Current Status
+\## Current Status
 
 
 
-### Completed
+\### Completed
 
 
 
-- **Proxmox infrastructure:** Host networking, bridge configuration, IPv4 forwarding
+\- \*\*Proxmox infrastructure:\*\* Host networking, bridge configuration, IPv4 forwarding
 
-- **Network segmentation:** Five isolated Purdue Model zones with static routing
+\- \*\*Network segmentation:\*\* Five isolated Purdue Model zones with static routing
 
-- **VM deployment:** Five Ubuntu 24.04 LTS VMs with assigned roles
+\- \*\*VM deployment:\*\* Five Ubuntu 24.04 LTS VMs with assigned roles
 
-- **Connectivity verification:** Ping and SSH tested across all zones from Proxmox and Windows
+\- \*\*Connectivity verification:\*\* Ping and SSH tested across all zones from Proxmox and Windows
 
-- **Persistent routing:** Windows static routes to OT subnets configured and validated
+\- \*\*Persistent routing:\*\* Windows static routes to OT subnets configured and validated
 
-- **CISA ICS training:** ICS300 and ICS401V certifications completed
-
-
-
-### In Progress
+\- \*\*CISA ICS training:\*\* ICS300 and ICS401V certifications completed
 
 
 
-- Historian/database VM configuration
-
-- Engineering workstation hardening
-
-- Monitoring VM setup (Zeek, Suricata)
-
-- OpenPLC deployment and configuration
-
-- SCADA platform selection and deployment
+\### In Progress
 
 
 
----
+\- Historian/database VM configuration
+
+\- Engineering workstation hardening
+
+\- Monitoring VM setup (Zeek, Suricata)
+
+\- OpenPLC deployment and configuration
+
+\- SCADA platform selection and deployment
 
 
 
-## Case Studies
+\---
 
 
 
-### Case Study 001: OT/ICS Network Segmentation
+\## Case Studies
 
 
 
-Implemented and validated a **default-deny OT/ICS network segmentation architecture** using the Proxmox VE firewall.
+\### Case Study 001: OT/ICS Network Segmentation
+
+
+
+Implemented and validated a \*\*default-deny OT/ICS network segmentation architecture\*\* using the Proxmox VE firewall.
 
 
 
@@ -160,173 +164,171 @@ The project demonstrates:
 
 
 
-- Baseline network and service discovery
+\- Baseline network and service discovery
 
-- Before-and-after connectivity validation
+\- Before-and-after connectivity validation
 
-- Default-deny firewall enforcement
+\- Default-deny firewall enforcement
 
-- Explicit allow rules for required OT communications
+\- Explicit allow rules for required OT communications
 
-- Direct TCP connectivity testing
+\- Direct TCP connectivity testing
 
-- Firewall packet counter validation
+\- Firewall packet counter validation
 
-- Collection of technical evidence supporting the implementation
+\- Collection of technical evidence supporting the implementation
 
 
 
-**[View Case Study 001: OT/ICS Network Segmentation](docs/case-studies/001-network-segmentation/)**
+\[\*\*View Case Study 001: OT/ICS Network Segmentation\*\*](docs/case-studies/001-network-segmentation/)
 
 
 
----
+\---
 
 
 
-## Future Roadmap
+\## Future Roadmap
 
 
 
-- Threat detection tuning (Zeek, Suricata)
+\- Threat detection tuning (Zeek, Suricata)
 
-- ICS-specific vulnerability assessment
+\- ICS-specific vulnerability assessment
 
-- Security controls validation
+\- Security controls validation
 
-- Incident response simulation
+\- Incident response simulation
 
 
 
----
+\---
 
 
 
-## Technologies & Skills
+\## Technologies \& Skills
 
 
 
-### Infrastructure
+\### Infrastructure
 
 
 
-- Proxmox VE (hypervisor, network segmentation)
+\- Proxmox VE (hypervisor, network segmentation)
 
-- Linux bridge networking (vmbr0-vmbr40)
+\- Linux bridge networking (vmbr0-vmbr40)
 
-- Ubuntu 24.04 LTS
+\- Ubuntu 24.04 LTS
 
-- IPv4 routing and netplan configuration
+\- IPv4 routing and netplan configuration
 
-- SSH key-based authentication
+\- SSH key-based authentication
 
 
 
-### OT/ICS
+\### OT/ICS
 
 
 
-- OpenPLC (planned)
+\- OpenPLC (planned)
 
-- SCADA platforms (evaluation in progress)
+\- SCADA platforms (evaluation in progress)
 
-- Modbus TCP
+\- Modbus TCP
 
-- Historian databases
+\- Historian databases
 
-- HMI design principles
+\- HMI design principles
 
 
 
-### Security & Monitoring
+\### Security \& Monitoring
 
 
 
-- Zeek (network flow analysis)
+\- Zeek (network flow analysis)
 
-- Suricata (network IDS)
+\- Suricata (network IDS)
 
-- Wireshark (packet capture and analysis)
+\- Wireshark (packet capture and analysis)
 
-- Nmap (device discovery)
+\- Nmap (device discovery)
 
-- Host-based firewall configuration
+\- Host-based firewall configuration
 
 
 
-### Methodology
+\### Methodology
 
 
 
-- Purdue Model (ISA-95) architecture
+\- Purdue Model (ISA-95) architecture
 
-- NIST SP 800-82 OT security guidelines
+\- NIST SP 800-82 OT security guidelines
 
-- IEC 62443 zone/conduit design
+\- IEC 62443 zone/conduit design
 
-- Risk assessment and segmentation validation
+\- Risk assessment and segmentation validation
 
 
 
----
+\---
 
 
 
-## Documentation Structure
+\## Documentation Structure
 
 
 
-### Architecture & Design
+\### Architecture \& Design
 
 
 
-- [**Network Topology**](docs/network-topology.md) - Detailed network layout, IP addressing, and routing logic
+Network topology and architecture decisions are currently documented in the main project README and case study documentation.
 
-- [**Architecture Decision Log**](docs/architecture.md) - Why each design choice was made
 
 
+\### Build Journal
 
-### Build Journal
 
 
+\- \[\*\*2026-07-27 - OT Network Foundation\*\*](docs/build-journal.md#2026-07-27) - Initial networking setup and verification
 
-- [**2026-07-27 - OT Network Foundation**](docs/build-journal.md#2026-07-27) - Initial networking setup and verification
 
 
+\### Troubleshooting \& Lessons Learned
 
-### Troubleshooting & Lessons Learned
 
 
+\- \[\*\*Proxmox Networking\*\*](docs/troubleshooting/001-proxmox-networking.md) - Bridge configuration, management IP placement, and ARP conflicts
 
-- [**Proxmox Networking**](docs/troubleshooting/001-proxmox-networking.md) - Bridge configuration, management IP placement, and ARP conflicts
 
-- [**Routing & Inter-Zone Communication**](docs/troubleshooting/002-routing.md) - IPv4 forwarding, static routes, and Windows integration
 
-- [**PLC Network Configuration**](docs/troubleshooting/003-plc-networking.md) - VM-to-VM connectivity and netplan lessons learned
+Additional routing and PLC networking troubleshooting documentation will be added as the lab continues to develop.
 
 
 
-### Configuration Templates
+\### Configuration Templates
 
 
 
-- [**Proxmox Network Configuration**](configs/proxmox/) - Bridge and NIC configurations
+\- \[\*\*Firewall Rules\*\*](configs/firewall/) - Inter-zone access control examples
 
-- [**Netplan Configuration**](configs/netplan/) - Ubuntu static IP and routing examples
 
-- [**Firewall Rules**](configs/firewall/) - Inter-zone access control examples
 
+Additional Proxmox and netplan configuration templates will be added as the lab continues to develop.
 
 
----
 
+\---
 
 
-## Key Insights
 
+\## Key Insights
 
 
-### Networking Foundation First
+
+\### Networking Foundation First
 
 
 
@@ -334,7 +336,7 @@ Before deploying OT applications such as OpenPLC and SCADA platforms, establish 
 
 
 
-### Purdue Model Segmentation is an Operational Necessity, Not Just Security
+\### Purdue Model Segmentation is an Operational Necessity, Not Just Security
 
 
 
@@ -342,7 +344,7 @@ Segmentation is not just a security control. The zones reflect operational respo
 
 
 
-### Bridge IP Placement Matters
+\### Bridge IP Placement Matters
 
 
 
@@ -350,7 +352,7 @@ Management connectivity reliability depends on assigning the management IP to th
 
 
 
-### Context Matters in OT Troubleshooting
+\### Context Matters in OT Troubleshooting
 
 
 
@@ -358,95 +360,111 @@ A problem that looks like a routing failure might be an ARP cache issue. A conne
 
 
 
----
+\---
 
 
 
-## How to Use This Repository
+\## How to Use This Repository
 
 
 
-### For Hiring Managers / Technical Interviewers
+\### For Hiring Managers / Technical Interviewers
 
 
 
-- Read the Architecture Overview and Network Topology to understand the system design
+\- Read the Architecture Overview and Network Topology to understand the system design
 
-- Review the Build Journal to see real-time problem-solving and decision-making
+\- Review the Build Journal to see real-time problem-solving and decision-making
 
-- Check the [Troubleshooting](docs/troubleshooting/) folder to see how complex problems are diagnosed and resolved
+\- Check the troubleshooting documentation to see how complex problems are diagnosed and resolved
 
-- Review [Configuration Templates](configs/) to see infrastructure-as-code practices
-
-
-
-### For OT/ICS Engineers
+\- Review the configuration templates to see infrastructure and security configuration examples
 
 
 
-- Use the [Troubleshooting Documentation](docs/troubleshooting/) as a reference for common homelab issues
-
-- Adapt the [Network Topology](docs/network-topology.md) for your own lab setup
-
-- Review [Configuration Templates](configs/) as examples for Proxmox, netplan, and firewall rules
+\### For OT/ICS Engineers
 
 
 
----
+\- Use the troubleshooting documentation as a reference for common homelab issues
+
+\- Adapt the network topology for your own lab setup
+
+\- Review the firewall configuration templates as examples for inter-zone access control
 
 
 
-## Skills Demonstrated
+\---
 
 
 
-- **OT/ICS Fundamentals** - Purdue Model, zone design, and process control concepts
-
-- **Network Engineering** - Segmentation, routing, bridge configuration, and firewall rules
-
-- **Linux System Administration** - Ubuntu, netplan, IPv4 routing, and firewall administration
-
-- **Virtualization** - Proxmox and VM deployment with network isolation
-
-- **Security Assessment** - Threat detection, vulnerability scanning, and compliance frameworks
-
-- **Documentation** - Technical writing, architecture documentation, and troubleshooting procedures
-
-- **Problem-Solving** - Root cause analysis, layer-by-layer investigation, and systematic validation
+\## Skills Demonstrated
 
 
 
----
+\- \*\*OT/ICS Fundamentals\*\* - Purdue Model, zone design, and process control concepts
+
+\- \*\*Network Engineering\*\* - Segmentation, routing, bridge configuration, and firewall rules
+
+\- \*\*Linux System Administration\*\* - Ubuntu, netplan, IPv4 routing, and firewall administration
+
+\- \*\*Virtualization\*\* - Proxmox and VM deployment with network isolation
+
+\- \*\*Security Assessment\*\* - Threat detection, vulnerability scanning, and compliance frameworks
+
+\- \*\*Documentation\*\* - Technical writing, architecture documentation, and troubleshooting procedures
+
+\- \*\*Problem-Solving\*\* - Root cause analysis, layer-by-layer investigation, and systematic validation
 
 
 
-## Credentials & Certifications
+\---
 
 
 
-- **CISA ICS300** (July 2026)
-
-- **CISA ICS401V** (July 2026)
+\## Credentials \& Certifications
 
 
 
----
+\- \*\*CompTIA Security+\*\* (June 2025)
+
+\- \*\*CISA ICS300\*\* (July 2026)
+
+\- \*\*CISA ICS401V\*\* (July 2026)
 
 
 
-## License
+\---
 
 
 
-[MIT License](LICENSE)
+\## Education
 
 
 
----
+\- \*\*Master of Business Administration (MBA)\*\* - Georgia Southern University
+
+\- \*\*Bachelor's Degree in Recreation and Sports Management\*\* - Florida International University
 
 
 
-## Contact & Collaboration
+\---
+
+
+
+\## License
+
+
+
+This project is licensed under the \[MIT License](LICENSE).
+
+
+
+\---
+
+
+
+\## Contact \& Collaboration
 
 
 
@@ -454,13 +472,11 @@ This repository is part of a broader OT/ICS cybersecurity portfolio. For questio
 
 
 
----
+\---
 
 
 
-**Last Updated:** 2026-08-19  
+\*\*Last Updated:\*\* 2026-08-20  
 
-**Lab Status:** Active Development
-
-
+\*\*Lab Status:\*\* Active Development
 
