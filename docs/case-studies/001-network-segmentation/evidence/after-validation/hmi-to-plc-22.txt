@@ -1,0 +1,1 @@
+HMI-to-PLC-22 exit code: 124

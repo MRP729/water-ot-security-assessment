@@ -1,0 +1,1 @@
+HMI-to-Historian-5432 exit code: 124

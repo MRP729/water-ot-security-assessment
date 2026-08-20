@@ -1,0 +1,7 @@
+Chain PVEFW-FORWARD (1 references)
+ pkts bytes target     prot opt in     out     source               destination         
+    3   120 DROP       all  --  *      *       0.0.0.0/0            0.0.0.0/0            ctstate INVALID
+26891 2771K ACCEPT     all  --  *      *       0.0.0.0/0            0.0.0.0/0            ctstate RELATED,ESTABLISHED
+  308 64824 PVEFW-FWBR-IN  all  --  *      *       0.0.0.0/0            0.0.0.0/0            PHYSDEV match --physdev-in fwln+ --physdev-is-bridged
+14056  921K PVEFW-FWBR-OUT  all  --  *      *       0.0.0.0/0            0.0.0.0/0            PHYSDEV match --physdev-out fwln+ --physdev-is-bridged
+31551 2050K            all  --  *      *       0.0.0.0/0            0.0.0.0/0            /* PVESIG:qnNexOcGa+y+jebd4dAUqFSp5nw */

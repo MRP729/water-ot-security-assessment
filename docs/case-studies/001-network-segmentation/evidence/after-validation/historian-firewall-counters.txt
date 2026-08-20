@@ -1,0 +1,9 @@
+Chain tap102i0-IN (1 references)
+ pkts bytes target     prot opt in     out     source               destination         
+  107 29084 CONNMARK   all  --  *      *       0.0.0.0/0            0.0.0.0/0            CONNMARK set 0x66
+    0     0 ACCEPT     udp  --  *      *       0.0.0.0/0            0.0.0.0/0            udp spt:67 dpt:68
+    2   120 ACCEPT     tcp  --  *      *       192.168.10.100       0.0.0.0/0            tcp dpt:5432
+    2   120 ACCEPT     tcp  --  *      *       192.168.30.0/24      0.0.0.0/0            tcp dpt:22
+  103 28844 PVEFW-Drop  all  --  *      *       0.0.0.0/0            0.0.0.0/0           
+   17   980 DROP       all  --  *      *       0.0.0.0/0            0.0.0.0/0           
+    0     0            all  --  *      *       0.0.0.0/0            0.0.0.0/0            /* PVESIG:hZ84Y/dZtdSb0nYPK7RbgDqZiLA */

@@ -1,0 +1,1 @@
+PLC-to-Historian-5432 exit code: 0
