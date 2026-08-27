@@ -26,7 +26,7 @@
 
 | # | Does the WWS... | Status | Notes |
 |---|---|---|---|
-| 2.A* | Change default passwords? | ❌ | **Finding 1 (Artifact 3):** OpenPLC's default vendor credentials (openplc/openplc) confirmed live and functional via direct HTTP test. This is the single most significant open item in this assessment. |
+| 2.A* | Change default passwords? | ✅ *(Aug 27, 2026)* | **Finding 1 (Artifact 3) — remediated.** OpenPLC's default vendor credentials (openplc/openplc) were confirmed live via direct HTTP test, then replaced. Old credentials confirmed dead and new credentials confirmed working via the same test method. This had been the single most significant open item in this assessment. |
 | 2.B* | Require a minimum password length? | ⚠️ | No formal password policy verified across OT assets |
 | 2.C* | Require unique, separate OT vs. IT credentials per user? | ⚠️ | Not formally assessed; single-operator lab environment does not yet exercise this control |
 | 2.D* | Immediately disable access when no longer needed? | ⚠️ | No user lifecycle process tested in this assessment cycle |
@@ -82,14 +82,16 @@
 | Category | ✅ | ⚠️ | ❌ | N/A |
 |---|---|---|---|---|
 | Identify (7 items) | 0 | 2 | 5 | 1 |
-| Protect (24 items) | 5 | 8 | 6 | 6 |
+| Protect (24 items) | 6 | 8 | 5 | 6 |
 | Detect (1 item) | 0 | 1 | 0 | 0 |
 | Respond (1 item) | 1 | 0 | 0 | 0 |
 | Recover (1 item) | 0 | 1 | 0 | 0 |
 
+*(Updated Aug 27, 2026 — item 2.A moved from ❌ to ✅ following credential remediation.)*
+
 **Reading this honestly:** the ✅ items cluster almost entirely around network segmentation and documentation (2.F, 2.O, 2.P, 2.W, 2.X) — the exact area Artifact 3 targeted. That concentration is expected and should be stated plainly rather than implied as broader coverage than it is.
 
-**The two ❌ items carrying the most weight** are 2.A (default passwords — Finding 1, directly exploitable, no technical barrier) and 2.H (MFA — absent entirely). Both are flagged as Priority items by EPA's own Top Cyber Actions list, and both are already captured in the RRA's remediation roadmap (Priorities 1–2).
+**The ❌ item carrying the most remaining weight** is now 2.H (MFA — absent entirely). 2.A (default passwords — Finding 1) was remediated Aug 27, 2026, closing what had been the most directly exploitable item on this checklist — no technical barrier had stood between an attacker with network access and full PLC control prior to the fix. Both 2.A and 2.H are Priority items on EPA's own Top Cyber Actions list; 2.A is now closed, and 2.H remains captured in the RRA's remediation roadmap.
 
 **Governance and training items (1.A–1.I, 2.I–2.J) are the weakest category overall**, which is consistent with — and explains — the AWWA assessment's low Governance & Asset Management score (2) and the fact that this checklist result should not be read as a completed compliance exercise, but as the current gap analysis EPA's guidance intends it to produce: a prioritized list of what to fix next, not a passed/failed grade.
 

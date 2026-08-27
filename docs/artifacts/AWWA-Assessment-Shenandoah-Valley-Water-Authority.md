@@ -60,12 +60,13 @@
 - SSH access across OT hosts uses key-based authentication (established during Phase 2), not passwords
 - Sudo access has been deliberately scoped and cleaned up after use (sudoers cleanup, verified via `sudo -n` failure test) rather than left standing indefinitely
 
-**What holds this at Repeatable, not higher:**
-- Finding 1 — OpenPLC's default vendor credentials (`openplc`/`openplc`) remain unchanged and unauthenticated network access was confirmed via a live HTTP 302/session-cookie test. This is a foundational access-control failure that segmentation does not resolve on its own (RRA Section 6, residual risk)
-- The RRA's residual-risk analysis specifically flags that HMI — now the sole conduit to both PLC and Historian post-segmentation — has **not yet had an equivalent credential review performed** (RRA Priority 2, currently unaddressed)
-- No formal password/credential policy or rotation schedule exists across OT assets
+**Update, Aug 27, 2026 — Finding 1 remediated:** OpenPLC's default vendor credentials (`openplc`/`openplc`) have been replaced. The default account was confirmed dead and the new credentials confirmed working, using the same HTTP-request method that originally identified the finding. RRA Priority 1 is now complete.
 
-**To reach Defined (3):** complete Priority 1–2 of the RRA remediation roadmap (PLC and HMI credential remediation) and establish a minimum credential standard applied consistently across all OT hosts, not host-by-host as issues surface.
+**What still holds this at Repeatable, not yet Defined:**
+- The RRA's residual-risk analysis flags that HMI — now the sole conduit to both PLC and Historian post-segmentation — has **not yet had an equivalent credential review performed** (RRA Priority 2, currently unaddressed)
+- No formal password/credential policy or rotation schedule exists across OT assets — the PLC fix was a targeted, single-host remediation, not yet a standing practice
+
+**To reach Defined (3):** complete Priority 2 of the RRA remediation roadmap (HMI credential review) and establish a minimum credential standard applied consistently across all OT hosts, not host-by-host as issues surface.
 
 ---
 
@@ -108,4 +109,4 @@ The lab environment on which this assessment is based is virtualized (Proxmox ho
 
 Shenandoah Valley Water Authority's OT security posture improved measurably and verifiably in the area directly targeted by this assessment cycle — network segmentation moved from Ad hoc (1) to Defined (3), with hard evidence rather than a self-reported claim. That improvement is real and should be represented as such.
 
-It should equally be represented honestly that **this improvement is narrow and project-based**, not yet reflected in the surrounding practices — governance, access control, and supply-chain risk all remain at or near baseline maturity, and the credential findings that motivated part of the segmentation work (Finding 1) remain open. A board or executive audience should read this assessment as: *the single highest-risk technical gap has been closed and proven closed, and the next-highest-priority items are now clearly identified and sequenced* — not as a broad security-maturity uplift across the organization.
+It should equally be represented honestly that **this improvement is narrow and project-based**, not yet reflected in the surrounding practices — governance and supply-chain risk remain at or near baseline maturity. Finding 1 (default OpenPLC credentials), which had been the highest-severity open item, was remediated on August 27, 2026, closing the top-scored risk in the RRA. A board or executive audience should read this assessment as: *the two highest-risk technical gaps — open network paths and a default credential — have both been closed and independently verified closed, and the next-highest-priority items (HMI credential review, MFA, encryption in transit) are now clearly identified and sequenced* — not as a broad security-maturity uplift across the organization.

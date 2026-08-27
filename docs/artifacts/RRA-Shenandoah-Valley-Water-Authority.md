@@ -45,7 +45,7 @@ Threat paths below reflect the actual conditions found at Shenandoah Valley Wate
 
 | Finding (ref. Artifact 3) | Description | Severity | CVSS-style Rationale |
 |---|---|---|---|
-| Finding 1 | OpenPLC default credentials (openplc/openplc) live on network-reachable web interface | **High** | Network-exploitable (AV:N), no privileges required (PR:N), no user interaction (UI:N), full admin scope — consistent with CVSS Base ≈ 9.x range for unauthenticated admin access |
+| Finding 1 | OpenPLC default credentials (openplc/openplc) live on network-reachable web interface | **High → Remediated (Aug 27, 2026)** | Was network-exploitable (AV:N), no privileges required (PR:N), no user interaction (UI:N), full admin scope — consistent with CVSS Base ≈ 9.x range for unauthenticated admin access. Default account replaced and verified dead; new credentials confirmed working via the same HTTP-request method used to identify the finding. |
 | Finding 2 | Historian PostgreSQL access controlled at application layer only, not network layer | **High** | Network-exploitable path to a service with a known-broad vulnerability history; network segmentation is the standard compensating control and was absent |
 | Finding 3 | Firewall configuration existed but was not enforced (PLC, Historian) | **Medium** (methodological) | Not directly exploitable itself, but it is the root enabler of Findings 1 and 2's network reachability — addressed via segmentation remediation, not a standalone patch |
 | Finding 4 | HMI web interface unencrypted (HTTP only) | **Medium** | Passive network position required (higher attacker cost than #1/#2); confidentiality impact on any future HMI credentials |
@@ -59,7 +59,7 @@ Likelihood and impact scored 1 (low) – 5 (high). Likelihood reflects **pre-rem
 
 | Risk | Likelihood | Impact | Score | Rating |
 |---|---|---|---|---|
-| Unauthorized PLC parameter modification via default creds + open Modbus/EtherNet-IP | 5 | 5 | 25 | **Critical** |
+| Unauthorized PLC parameter modification via default creds + open Modbus/EtherNet-IP | ~~5~~ **2** | 5 | ~~25~~ **10** | ~~Critical~~ **Medium** *(re-scored Aug 27, 2026 — default credential path closed; see Section 6)* |
 | Historian compromise via unrestricted network path to PostgreSQL | 4 | 3 | 12 | **High** |
 | Lateral movement from Engineering into Field/Control zone generally | 4 | 4 | 16 | **High** |
 | HMI session interception (unencrypted HTTP) | 2 | 3 | 6 | **Medium** |
@@ -87,7 +87,7 @@ Likelihood and impact scored 1 (low) – 5 (high). Likelihood reflects **pre-rem
 **Reduced but not eliminated:**
 - PLC and historian are no longer reachable from Engineering. The Critical-rated risk in Section 4 is reduced in *likelihood* (attacker must now first compromise the HMI or physically access the Supervisory zone) but not in *impact* — if the HMI itself is compromised, the same PLC parameter-modification path remains available, since HMI→PLC is an authorized conduit by design.
 - **New consideration introduced by segmentation:** the HMI is now a more concentrated point of trust than before, since it is the sole authorized path to both the PLC and the historian. This does not argue against the remediation — concentrating trust into one well-defended chokepoint is preferable to leaving it distributed across an open network — but it does mean the HMI itself should be prioritized for the credential and hardening review that Finding 1 flagged for the PLC.
-- Finding 1 (default OpenPLC credentials) is **unaffected by network segmentation** and remains fully exploitable by anyone who reaches the HMI or who gains a foothold inside the Supervisory zone by other means (e.g., physical access, a future misconfiguration).
+- **Update, Aug 27, 2026:** Finding 1 (default OpenPLC credentials) has been remediated — the default account was replaced and verified dead via the same HTTP-request method used to originally identify it. This closes what had been the top-scored risk in Section 4. Residual exposure at the HMI still exists in principle (an attacker reaching the HMI now needs to defeat a real credential rather than a documented default, which is a materially higher bar, not a zero-risk state) — the HMI's own credential posture has not yet been independently reviewed and remains tracked as RRA Priority 2 below.
 - Finding 4 (unencrypted HMI web interface) is unaffected by segmentation and remains open.
 
 ---
@@ -96,7 +96,7 @@ Likelihood and impact scored 1 (low) – 5 (high). Likelihood reflects **pre-rem
 
 | Priority | Action | Addresses | Effort |
 |---|---|---|---|
-| **1 — Immediate** | Change OpenPLC default credentials (openplc/openplc) to unique, managed credentials | Finding 1 | Low |
+| **1 — Immediate** | ~~Change OpenPLC default credentials~~ **✅ Complete (Aug 27, 2026)** — default account replaced, verified via login test | Finding 1 | Low |
 | **2 — Immediate** | Extend credential review to HMI, given its new role as the sole conduit to PLC and historian | Residual risk (Section 6) | Low |
 | **3 — Near-term** | Add TLS to HMI web interface | Finding 4 | Medium |
 | **4 — Near-term** | Formalize a live-enforcement verification step (not just config review) into any future firewall change process, per Finding 3's lesson | Finding 3 | Low (procedural) |

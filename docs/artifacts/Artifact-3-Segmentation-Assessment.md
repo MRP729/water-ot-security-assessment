@@ -18,7 +18,7 @@ Shenandoah Valley Water Authority's operational technology (OT) network — cove
 
 **Result:** the PLC's exposed attack surface from Engineering dropped from five open ports to one (SSH only). The historian's database port is no longer reachable from Engineering; it remains reachable from the HMI, which is its only legitimate operational consumer. No existing monitoring or supervisory function was disrupted.
 
-**What remains open:** one unresolved technical anomaly prevented the PLC from being configured with direct network egress to the historian under the new firewall policy — full detail and elimination methodology in Appendix A. We route around it operationally (HMI relays PLC data to the historian) rather than leave the segmentation incomplete, and we treat the anomaly itself as a legitimate, well-evidenced finding rather than a task left undone. Additionally, the OpenPLC web interface's default credentials remain unchanged and are addressed as a follow-on remediation item, not a network-segmentation issue.
+**What remains open:** one unresolved technical anomaly prevented the PLC from being configured with direct network egress to the historian under the new firewall policy — full detail and elimination methodology in Appendix A. We route around it operationally (HMI relays PLC data to the historian) rather than leave the segmentation incomplete, and we treat the anomaly itself as a legitimate, well-evidenced finding rather than a task left undone. The OpenPLC web interface's default credentials (Finding 1) were remediated on August 27, 2026, closing the highest-severity open item from this assessment cycle.
 
 ---
 
@@ -87,8 +87,14 @@ Monitoring zone was already correctly restricted at baseline (Phase 1 default-de
 
 ## 4. Current-State Vulnerabilities Identified
 
-**Finding 1 — Default credentials on the PLC web management interface (High).**
-OpenPLC's web dashboard (port 8080) accepts the vendor default credentials `openplc` / `openplc`. This was confirmed by direct HTTP request: a POST to `/login` with these credentials returned HTTP 302 with a redirect to `/dashboard` and a valid session cookie. Combined with the network path being open at baseline, this represented full unauthenticated administrative access to PLC control logic from the Engineering zone. *(This is a credential-hygiene finding, distinct from the network-segmentation finding — closing the network path in Section 5 does not fix the credentials themselves. See RRA for remediation priority.)*
+**Finding 1 — Default credentials on the PLC web management interface (High) — REMEDIATED Aug 27, 2026.**
+OpenPLC's web dashboard (port 8080) accepted the vendor default credentials `openplc` / `openplc`. This was confirmed by direct HTTP request: a POST to `/login` with these credentials returned HTTP 302 with a redirect to `/dashboard` and a valid session cookie. Combined with the network path being open at baseline, this represented full unauthenticated administrative access to PLC control logic from the Engineering zone. *(This was a credential-hygiene finding, distinct from the network-segmentation finding — closing the network path in Section 5 did not by itself fix the credentials.)*
+
+**Remediation:** the default account was replaced via OpenPLC's built-in Users interface (accessed through an SSH tunnel to the PLC's loopback, since the web port is no longer reachable from Engineering post-segmentation). Verification followed the same method used to originally confirm the finding — a direct POST to `/login` from the PLC's own shell:
+- `openplc` / `openplc` → HTTP 200, "Bad credentials! Try again" (confirmed dead)
+- New credentials → HTTP 302, redirect to `/dashboard` with valid session cookie (confirmed working)
+
+This closes the single highest-severity open item identified across the Phase 4 assessment package.
 
 **Finding 2 — Historian database access controlled at the application layer only (High).**
 PostgreSQL's `pg_hba.conf` restricts connections to a single IP internally, but this control lived entirely inside the database engine. At the network layer — the layer an attacker touches first — the port was open to the entire Engineering zone. A network-layer control is the correct primary defense; an application-layer control alone is a single point of failure.
