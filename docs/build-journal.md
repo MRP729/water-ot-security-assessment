@@ -2,7 +2,7 @@
 
 Real-time documentation of homelab construction, decisions, and lessons learned.
 
-\---
+---
 
 ## 2026-07-27 – OT Network Foundation
 
@@ -39,7 +39,7 @@ Real-time documentation of homelab construction, decisions, and lessons learned.
 
 * Enabled forwarding to allow inter-zone routing
 * Required for centralized monitoring and management traffic
-* Configuration: `/proc/sys/net/ipv4/ip\_forward = 1`
+* Configuration: `/proc/sys/net/ipv4/ip_forward = 1`
 
 #### VM Deployment
 
@@ -47,11 +47,11 @@ Five Ubuntu 24.04 LTS VMs created with assigned roles:
 
 |VMID|Hostname|Network|IP Address|Role|
 |-|-|-|-|-|
-|100|hmi-scada|vmbr20|192.168.20.100|SCADA HMI \& Supervisory Control|
+|100|hmi-scada|vmbr20|192.168.20.100|SCADA HMI & Supervisory Control|
 |101|plc-controller|vmbr10|192.168.10.100|Field-level PLC control|
 |102|historian-db|vmbr20|192.168.20.101|Process data historian|
 |103|workstation-eng|vmbr30|192.168.30.100|Engineering/configuration access|
-|104|monitor-wireshark|vmbr40|192.168.40.100|Network monitoring \& IDS|
+|104|monitor-wireshark|vmbr40|192.168.40.100|Network monitoring & IDS|
 
 #### Connectivity Verification
 
@@ -99,7 +99,7 @@ Verified that VMs can reach each other across zones:
 
 ### Lessons Learned
 
-#### 1\. Bridge Configuration — IP Placement is Critical
+#### 1. Bridge Configuration — IP Placement is Critical
 
 **Issue:** Initial management connectivity was unreliable. SSH sessions would hang, then succeed intermittently.
 
@@ -122,7 +122,7 @@ iface vmbr0 inet static
 
 **Why This Matters:** The Linux bridge is the logical interface that coordinates traffic across all bridge members. By assigning the management IP to the bridge instead of the physical NIC, traffic is handled consistently and reliably.
 
-#### 2\. ARP Conflicts Can Mimic Routing Failures
+#### 2. ARP Conflicts Can Mimic Routing Failures
 
 **Issue:** Windows sometimes connected to the wrong device on the network, causing intermittent connectivity to the Proxmox host.
 
@@ -132,7 +132,7 @@ iface vmbr0 inet static
 
 **Key Insight:** Connectivity that works intermittently is often NOT a routing problem—it's usually a Layer 2 (MAC/ARP) issue. When troubleshooting network connectivity, validate each layer independently before moving up the stack.
 
-#### 3\. Windows Requires Explicit Routes to Non-Adjacent Subnets
+#### 3. Windows Requires Explicit Routes to Non-Adjacent Subnets
 
 **Issue:** Windows couldn't reach OT network subnets (192.168.10.0/24, etc.) even though Proxmox had routing configured.
 
@@ -146,7 +146,7 @@ route add 192.168.10.0 mask 255.255.255.0 192.168.1.250 -p
 
 **Why -p Flag Matters:** Without `-p`, routes disappear after reboot. With `-p`, they persist in the registry and survive restarts.
 
-#### 4\. Purdue Model Zones Reflect Real Operational Boundaries
+#### 4. Purdue Model Zones Reflect Real Operational Boundaries
 
 **Insight:** When designing the four zones (PLC, HMI, Engineering, Monitoring), I realized these aren't arbitrary security boundaries—they reflect actual operational responsibilities:
 
@@ -157,7 +157,7 @@ route add 192.168.10.0 mask 255.255.255.0 192.168.1.250 -p
 
 This segmentation is both a security control AND an operational necessity.
 
-#### 5\. Validate Each Layer Independently
+#### 5. Validate Each Layer Independently
 
 When a system doesn't work end-to-end, don't assume the entire stack is broken. Test systematically:
 
@@ -178,7 +178,7 @@ This was the most valuable troubleshooting lesson: many "network problems" are a
 6. **All-Zone Connectivity Verification** – End-to-end packet capture and analysis before applications
 7. **Security Baseline** – Firewall rules, access control matrix, compliance with IEC 62443
 
-### Timeline \& Velocity
+### Timeline & Velocity
 
 * **Session Start:** 2026-07-21
 * **Foundation Complete:** 2026-07-27 (6 days)
@@ -186,311 +186,199 @@ This was the most valuable troubleshooting lesson: many "network problems" are a
 
 Ahead of original 12-week schedule. Prioritizing network foundation before application deployment is paying off—troubleshooting will be significantly faster once OT software is running.
 
-\---
+---
 
 **Session Status:** ✅ Complete  
 **Next Review:** After Historian VM configuration  
 **Issues/Blockers:** None
 
+---
 
-
-\---
-
-
-
-\## 2026-08-19 - OT/ICS Network Segmentation
-
-
+## 2026-08-19 - OT/ICS Network Segmentation
 
 With the network foundation established and unrestricted inter-zone connectivity validated, the next phase focused on implementing security controls between the OT/ICS network zones.
 
+The objective was to move from an unrestricted routing environment to a **default-deny segmentation model** using the Proxmox VE firewall.
 
+This phase was documented separately as **Case Study 001: OT/ICS Network Segmentation**. The case study includes the firewall policies, connectivity validation, packet counter evidence, and before-and-after testing results.
 
-The objective was to move from an unrestricted routing environment to a \*\*default-deny segmentation model\*\* using the Proxmox VE firewall.
+### Objectives
 
+- Capture baseline connectivity before firewall restrictions
 
+- Identify required communications between OT/ICS zones
 
-This phase was documented separately as \*\*Case Study 001: OT/ICS Network Segmentation\*\*. The case study includes the firewall policies, connectivity validation, packet counter evidence, and before-and-after testing results.
+- Implement default-deny firewall policies
 
+- Explicitly allow required OT communications
 
+- Validate permitted and restricted traffic
 
-\### Objectives
+- Verify firewall rule enforcement using packet counters
 
+- Collect technical evidence for the implementation
 
+### Security Approach
 
-\- Capture baseline connectivity before firewall restrictions
-
-\- Identify required communications between OT/ICS zones
-
-\- Implement default-deny firewall policies
-
-\- Explicitly allow required OT communications
-
-\- Validate permitted and restricted traffic
-
-\- Verify firewall rule enforcement using packet counters
-
-\- Collect technical evidence for the implementation
-
-
-
-\### Security Approach
-
-
-
-The segmentation design followed a \*\*default-deny\*\* approach.
-
-
+The segmentation design followed a **default-deny** approach.
 
 Rather than allowing unrestricted communication between all OT zones, firewall policies were applied to restrict traffic and permit only the communications required for the lab environment.
 
-
-
 The implementation focused on the following systems:
 
+- **VM101 - PLC Controller**
 
+- **VM102 - Historian/Database**
 
-\- \*\*VM101 - PLC Controller\*\*
-
-\- \*\*VM102 - Historian/Database\*\*
-
-\- \*\*VM104 - Monitoring/Security\*\*
-
-
+- **VM104 - Monitoring/Security**
 
 Firewall policies were created to control communication between the PLC, HMI/SCADA, Historian, and Monitoring zones.
 
-
-
-\### Validation Testing
-
-
+### Validation Testing
 
 Direct TCP connectivity testing was performed to validate the segmentation controls.
 
-
-
 Testing included required and restricted communications involving services such as:
 
+- SSH - TCP 22
 
+- Modbus TCP - TCP 502
 
-\- SSH - TCP 22
+- Syslog/monitoring traffic - TCP 514
 
-\- Modbus TCP - TCP 502
-
-\- Syslog/monitoring traffic - TCP 514
-
-\- PostgreSQL/database traffic - TCP 5432
-
-
+- PostgreSQL/database traffic - TCP 5432
 
 Examples of validation scenarios included:
 
+- HMI to PLC communication
 
+- HMI to Historian communication
 
-\- HMI to PLC communication
+- HMI to Monitoring communication
 
-\- HMI to Historian communication
+- PLC to Historian communication
 
-\- HMI to Monitoring communication
+- PLC to Monitoring communication
 
-\- PLC to Historian communication
-
-\- PLC to Monitoring communication
-
-\- Historian to Monitoring communication
-
-
+- Historian to Monitoring communication
 
 The results were collected and preserved as technical evidence.
 
-
-
-\### Firewall Counter Validation
-
-
+### Firewall Counter Validation
 
 Firewall packet counters were reviewed after connectivity testing to confirm that traffic was matching the intended firewall rules.
 
-
-
 Evidence was collected for:
 
+- PLC firewall rules
 
+- Historian firewall rules
 
-\- PLC firewall rules
+- Monitoring firewall rules
 
-\- Historian firewall rules
-
-\- Monitoring firewall rules
-
-\- Proxmox firewall forwarding rules
-
-
+- Proxmox firewall forwarding rules
 
 This provided an additional validation layer beyond simply confirming whether a TCP connection succeeded or failed.
 
-
-
-\### Key Outcome
-
-
+### Key Outcome
 
 The OT/ICS environment transitioned from unrestricted inter-zone communication to a controlled segmentation architecture based on explicit communication requirements.
 
-
-
 The completed implementation demonstrates:
 
+- Baseline network discovery
 
+- Default-deny firewall enforcement
 
-\- Baseline network discovery
+- Explicit allow rules
 
-\- Default-deny firewall enforcement
+- OT service validation
 
-\- Explicit allow rules
+- Direct TCP testing
 
-\- OT service validation
+- Firewall packet counter analysis
 
-\- Direct TCP testing
+- Technical evidence collection
 
-\- Firewall packet counter analysis
-
-\- Technical evidence collection
-
-
-
-\### Documentation and Evidence
-
-
+### Documentation and Evidence
 
 The full implementation is documented in:
 
-
-
 `docs/case-studies/001-network-segmentation/`
-
-
 
 Firewall policy examples are located in:
 
-
-
 `configs/firewall/network-segmentation/`
-
-
 
 Validation evidence is located in:
 
-
-
 `docs/case-studies/001-network-segmentation/evidence/after-validation/`
 
+### Lessons Learned
 
-
-\### Lessons Learned
-
-
-
-1\. \*\*Baseline testing must happen before restrictions are applied\*\*
-
-
+1. **Baseline testing must happen before restrictions are applied**
 
 Capturing the unrestricted network state before implementing firewall policies made it possible to clearly demonstrate the effect of segmentation.
 
-
-
 Without baseline evidence, it would be more difficult to distinguish between a firewall restriction and a pre-existing connectivity problem.
 
-
-
-2\. \*\*Default-deny requires understanding legitimate communication paths\*\*
-
-
+2. **Default-deny requires understanding legitimate communication paths**
 
 Segmentation cannot be implemented effectively by simply blocking traffic.
 
-
-
 Each allowed communication path must have an operational justification. This requires identifying which systems need to communicate, which ports and protocols are required, and which paths should remain blocked.
 
-
-
-3\. \*\*Connectivity testing alone is not sufficient\*\*
-
-
+3. **Connectivity testing alone is not sufficient**
 
 A successful or failed TCP connection shows the outcome, but firewall packet counters provide additional evidence that traffic is matching the intended policy.
 
-
-
 Using both methods strengthened the validation of the implementation.
 
-
-
-4\. \*\*Documentation is part of the security control validation\*\*
-
-
+4. **Documentation is part of the security control validation**
 
 The firewall configuration, testing results, and packet counter evidence were preserved alongside the case study.
 
-
-
 This creates a repeatable record showing what was implemented, why it was implemented, and how the results were validated.
 
+### Current Status
 
+**Completed:**
 
-\### Current Status
+- Network foundation
 
+- Purdue Model zone implementation
 
+- Inter-zone routing
 
-\*\*Completed:\*\*
+- Windows static routing
 
+- Baseline connectivity validation
 
+- Default-deny OT/ICS network segmentation
 
-\- Network foundation
+- Firewall policy implementation
 
-\- Purdue Model zone implementation
+- Connectivity testing
 
-\- Inter-zone routing
+- Firewall counter validation
 
-\- Windows static routing
+- Case Study 001 documentation and evidence collection
 
-\- Baseline connectivity validation
+**Next Phase:**
 
-\- Default-deny OT/ICS network segmentation
+- Configure Historian/Database services
 
-\- Firewall policy implementation
+- Deploy OpenPLC on the PLC Controller
 
-\- Connectivity testing
+- Select and deploy a SCADA/HMI platform
 
-\- Firewall counter validation
+- Harden the Engineering Workstation
 
-\- Case Study 001 documentation and evidence collection
+- Establish monitoring visibility with Zeek and Suricata
 
+- Perform ICS-specific security assessment and detection testing
 
-
-\*\*Next Phase:\*\*
-
-
-
-\- Configure Historian/Database services
-
-\- Deploy OpenPLC on the PLC Controller
-
-\- Select and deploy a SCADA/HMI platform
-
-\- Harden the Engineering Workstation
-
-\- Establish monitoring visibility with Zeek and Suricata
-
-\- Perform ICS-specific security assessment and detection testing
-
-
-
-\---
-
-
+---
 
 Session Status: Active Development  
 

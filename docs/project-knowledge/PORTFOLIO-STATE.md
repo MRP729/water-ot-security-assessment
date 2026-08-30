@@ -1,6 +1,6 @@
 # Portfolio State
 
-**Generated on:** 2026-08-30 (updated three times — see revision notes below)
+**Generated on:** 2026-08-30 (updated four times — see revision notes below)
 **Scope:** skeleton only. The `Status` column is deliberately left as `TBD` for every row —
 completion state was **not** assessed or inferred. Fill it in manually.
 
@@ -18,6 +18,14 @@ completion state was **not** assessed or inferred. Fill it in manually.
 > resolved** — the file now exists. Retained below as a dated note (consistent with how the Finding 1
 > contradiction in inconsistency #1 was handled) rather than deleted outright, since the gap was real
 > at the time it was flagged.
+>
+> **Revision note (4th update):** Phase 5 (packaging) began. The `docs/artifacts/` set is
+> unchanged at 12 files — the artifact table below is still current — but three things outside
+> that directory changed and are not reflected in it: `README.md` was rewritten as the portfolio
+> front door (task 5.2); `docs/diagrams/Zone-Conduit-Purdue-Overlay.md` was added (task 5.1); and
+> a Finding 2/3 status inconsistency was logged in `FINDINGS-REGISTER.md` for the 5.4 consistency
+> pass. `docs/build-journal.md` was reflowed to fix escaped-markdown corruption (no content
+> change). Commits `f770e2f`, `5de7ffc`, and the one finalizing this update.
 
 ---
 
