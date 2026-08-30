@@ -1,7 +1,7 @@
 # Findings Register
 
-**Generated on:** 2026-08-30 (updated twice — see revision notes below)
-**Scope of scan:** `docs/artifacts/*.md` only (11 files as of this update). Evidence
+**Generated on:** 2026-08-30 (updated three times — see revision notes below)
+**Scope of scan:** `docs/artifacts/*.md` only (12 files as of this update). Evidence
 directories, `.nmap` / `.xml` / `.gnmap` / `.pcap` files, and Suricata rule files were
 **not** read.
 **Method:** identifiers are reported as the raw string used in each document. They have
@@ -13,9 +13,18 @@ not been normalised, renumbered, or reconciled.
 > source rather than merely observed.
 >
 > **Revision note (2nd update):** `Artifact-8-Client-Deliverable-Report.md` was added.
-> It does **not** introduce new findings to track — see inconsistency #7, extended below,
-> for why its lettered `Finding A`–`H` are recorded as a fourth identifier scheme rather
-> than as new register rows.
+> It did **not** introduce new findings to track — see inconsistency #7, which recorded its
+> lettered `Finding A`–`H` as a fourth identifier scheme rather than as new register rows,
+> and flagged three of those eight (E, G, H) as content with no numbered equivalent anywhere
+> in the portfolio.
+>
+> **Revision note (3rd update):** `Artifact-7-Water-Sector-Cyber-Risk-Package.md` was added.
+> It formally introduces `Finding 7.1`–`7.3`, now added as proper register rows — and, per
+> its own Section 9, these are exactly the findings that E, G, and H in Artifact 8 were
+> standing in for. That closes the UNVERIFIED item from the 2nd update. Artifact 7 also
+> explicitly documents the artifact-scoped numbering convention this register had been
+> describing as an inconsistency (#7) — see that entry, now marked resolved-by-convention
+> rather than deleted.
 
 ---
 
@@ -32,6 +41,9 @@ not been normalised, renumbered, or reconciled.
 | `Finding 6.2` | Custom detection rule silently not loaded due to a `default-rule-path` resolution mismatch (`/etc/suricata/rules/` vs. actual `/var/lib/suricata/rules`) | narrative status **Remediated** (rule relocated, loaded-rule count confirmed incremented) | `Artifact-6-Threat-Detection-Assessment.md`:59, 63 |
 | `Finding 6.3` | Sensor placement behind a default-deny firewall structurally limits visibility to permitted traffic only | **High significance**, stated `❌ Not achieved` in the posture table — open, not a remediation-track item | `Artifact-6-Threat-Detection-Assessment.md`:96, 110, 114, 116, 149, 174, 184, 186, 216 |
 | `Finding 6.4` | Stock ET Open ruleset has no rate-based SSH credential-guessing detection | **High significance**, stated `❌ Not achieved` — open, not a remediation-track item | `Artifact-6-Threat-Detection-Assessment.md`:118, 130, 132, 150, 184 |
+| `Finding 7.1` | No multi-factor authentication anywhere in the OT environment | `*(Open, High priority)*` | `Artifact-7-Water-Sector-Cyber-Risk-Package.md`:65, 166 |
+| `Finding 7.2` | No backup or tested recovery capability for OT systems | `*(Open, High priority)*` | `Artifact-7-Water-Sector-Cyber-Risk-Package.md`:75, 166 |
+| `Finding 7.3` | No named accountability or change control for OT cybersecurity | `*(Open, High priority)*` | `Artifact-7-Water-Sector-Cyber-Risk-Package.md`:85, 91, 166 |
 
 \* Reference occurs in a **plural or range form** (`Findings 1–4`, `Findings 1 and 2`) rather than
 as a discrete identifier — see inconsistency #2 below.
@@ -115,7 +127,35 @@ The same severity is written as a parenthetical in the Artifact 3 heading (`(Hig
 `**Medium** (methodological)`). Semantically equivalent, but no single canonical form exists,
 so exact-string matching across documents will not work. Unaffected by this update.
 
-### 7. Artifact 6 introduces two additional, unreconciled identifier schemes — **NEW**
+### 7. Multiple finding identifier schemes across the portfolio — **RESOLVED BY DOCUMENTED CONVENTION, 2026-08-30**
+
+**This entry was originally flagged as an inconsistency (below, unchanged from when it was
+written). It is retained as a historical record, not because a problem still exists.**
+`Artifact-7-Water-Sector-Cyber-Risk-Package.md` Section 9 ("Note on Finding Identifier
+Conventions") now explicitly documents what this register had been describing as
+unreconciled:
+
+> "This portfolio uses artifact-scoped finding identifiers: a finding is numbered by the
+> artifact that identified it. Artifact 6 identified Findings 6.1–6.4; this artifact
+> identifies Findings 7.1–7.3. Findings 1 through 4 predate this convention and retain bare
+> integer identifiers from Artifact 3. They are not renumbered, because they are
+> cross-referenced by identifier across eight committed documents and renumbering would
+> break those references for no analytical gain. The mirroring investigation handoff uses
+> a separate `Fault N` vocabulary deliberately... using distinct terminology prevents them
+> from being read as security findings against the assessed environment."
+> — Artifact-7-Water-Sector-Cyber-Risk-Package.md:158–164
+
+This resolves the situation the same way a documented design decision resolves an apparent
+bug: not by making the multiple schemes disappear, but by establishing that they are
+intentional and explaining why. `Finding N` (bare integer, Artifact 3's four), `Finding N.N`
+(artifact-scoped, Artifact 6's four and Artifact 7's three), lettered `Finding A`–`H`
+(Artifact 8, an audience-specific relabeling, not a fifth investigation), and `Fault N`
+(the mirroring handoff, deliberately not called a finding at all) are now four **named,
+explained** conventions rather than four unexplained ones. Nothing below needed to change
+as a result — the original observations were accurate; only their interpretation as an
+"inconsistency" no longer holds.
+
+**Original entry, as written before this resolution:**
 
 Findings 1–4 use bare `Finding N`. Artifact 6 does not continue that series — there is no
 `Finding 5` anywhere in the portfolio — and instead introduces:
@@ -143,6 +183,11 @@ a fourth status vocabulary distinct from all of the above.
 findings, a different category from Artifact 3's vulnerability findings) or should be reconciled
 to the single fixed vocabulary the methodology doc specifies.**
 
+**Note, 3rd update:** `Finding 7.1`–`7.3` add a fifth variant — `*(Open, High priority)*` — which
+overlaps partially with the fixed vocabulary (`Open` matches) but adds a priority qualifier the
+methodology doc's vocabulary doesn't define. The UNVERIFIED question above now applies across
+Findings 6.1–7.3 collectively, not just 6.1–6.4.
+
 **Extension (2nd update): a fourth scheme, lettered `Finding A`–`H`, in
 `Artifact-8-Client-Deliverable-Report.md` Section 4 ("Consolidated Findings").** This is the
 executive-audience deliverable and explicitly frames itself as ordering findings "by operational
@@ -159,25 +204,27 @@ register, not assumed:**
 | Finding B | Flat network permitting direct Engineering-to-controller access | `Finding 3` region (the segmentation-enforcement gap Finding 3 documents), also draws on Finding 1's exposure numbers |
 | Finding C | Historian database directly exposed | `Finding 2` (Artifact 3) |
 | Finding D | No encryption on the operator interface | `Finding 4` (Artifact 3) |
-| Finding E | No multi-factor authentication | **no prior register entry** — new content, not previously tracked as a numbered/lettered finding anywhere in the portfolio (raised only as a recommendation/gap elsewhere) |
+| Finding E | No multi-factor authentication | *(at the time)* no prior register entry. **Resolved, 3rd update: maps to `Finding 7.1`**, formalized in `Artifact-7-Water-Sector-Cyber-Risk-Package.md`:65, confirmed explicitly at :166 |
 | Finding F | Intrusion detection coverage gaps | `Finding 6.3` and `Finding 6.4` (Artifact 6), merged into one |
-| Finding G | No tested backup or recovery capability | **no prior register entry** — new |
-| Finding H | Governance and accountability gaps | **no prior register entry** — new, though thematically adjacent to material in the AWWA assessment's maturity scoring |
+| Finding G | No tested backup or recovery capability | *(at the time)* no prior register entry. **Resolved, 3rd update: maps to `Finding 7.2`**, formalized in `Artifact-7-Water-Sector-Cyber-Risk-Package.md`:75, confirmed explicitly at :166 |
+| Finding H | Governance and accountability gaps | *(at the time)* no prior register entry. **Resolved, 3rd update: maps to `Finding 7.3`**, formalized in `Artifact-7-Water-Sector-Cyber-Risk-Package.md`:85, confirmed explicitly at :166 |
 
-So: **A, C, D are 1:1 relabelings; B and F are many-to-one consolidations; E, G, and H introduce
-content that was not previously a discrete tracked finding under any of the other three schemes.**
-Calling all eight purely "re-presentations of existing findings" would overstate how much of
-Section 4 is actually new synthesis versus restatement. Neither view is wrong on its own — this
-register simply records the distinction rather than picking one framing.
-**UNVERIFIED — confirm whether Findings E, G, and H should retroactively get numbered entries in
-one of the technical artifacts, or are intentionally scoped to exist only at the executive-summary
-level.**
+So, as of the 2nd update: **A, C, D are 1:1 relabelings; B and F are many-to-one consolidations; E, G,
+and H introduced content not yet formalized as a discrete tracked finding under any of the other
+schemes.** As of this 3rd update, that last category is closed — Artifact 7 formalized exactly those
+three gaps as `Finding 7.1`–`7.3`, and its own Section 9 (quoted above) states the correspondence
+explicitly rather than leaving it to inference: *"Findings E, G, and H correspond to Findings 7.1,
+7.2, and 7.3 as formalized in this document."* The original UNVERIFIED question — whether E/G/H would
+get retroactive numbered entries — is answered: yes, and the sequencing (Artifact 8's executive letter
+first, Artifact 7's technical number second) is now visible in the commit history rather than
+ambiguous. All eight of Artifact 8's lettered findings now trace to a numbered original: A, C, D, E,
+F, G, H to Findings 1, 2, 4, 7.1, 6.3+6.4, 7.2, 7.3 respectively, and B to a synthesis of 1 and 3.
 
 ---
 
 ## Scan coverage note
 
-All 11 files in `docs/artifacts/` were scanned as of this update:
+All 12 files in `docs/artifacts/` were scanned as of this update:
 
 ```
 AWWA-Assessment-Shenandoah-Valley-Water-Authority.md
@@ -186,6 +233,7 @@ Artifact-4-Asset-Inventory-Criticality.md
 Artifact-5-ATTCK-Oldsmar-Case-Study.md
 Artifact-6-Mirroring-Investigation-Handoff.md
 Artifact-6-Threat-Detection-Assessment.md
+Artifact-7-Water-Sector-Cyber-Risk-Package.md
 Artifact-8-Client-Deliverable-Report.md
 Crosswalk-NIST80053-IEC62443-Shenandoah-Valley.md
 EPA-Checklist-Shenandoah-Valley-Water-Authority.md
@@ -193,10 +241,11 @@ ERP-Shenandoah-Valley-Water-Authority.md
 RRA-Shenandoah-Valley-Water-Authority.md
 ```
 
-No canonical findings register exists in `docs/artifacts/`; `Artifact-3-Segmentation-Assessment.md`
-remains the de facto source of definitions for Findings 1–4 (it is the only file that defines all
-four with titles and severities, and is cited as such by the RRA — `Finding (ref. Artifact 3)`,
-RRA:46). `Artifact-6-Threat-Detection-Assessment.md` is the de facto source of definitions for
-Findings 6.1–6.4, by the same logic. `Artifact-8-Client-Deliverable-Report.md` defines no new
-findings of its own — see inconsistency #7 — and is not a definitional source by this register's
-convention, despite containing a "Consolidated Findings" section.
+There are now three definitional sources in `docs/artifacts/`, each the sole origin for its
+numbered range: `Artifact-3-Segmentation-Assessment.md` for Findings 1–4 (cited as such by the
+RRA — `Finding (ref. Artifact 3)`, RRA:46), `Artifact-6-Threat-Detection-Assessment.md` for
+Findings 6.1–6.4, and `Artifact-7-Water-Sector-Cyber-Risk-Package.md` for Findings 7.1–7.3 (which
+also explicitly states this register's identifier-scheme convention — see inconsistency #7).
+`Artifact-8-Client-Deliverable-Report.md` defines no new findings of its own — it is a relabeling
+of the other three sources for a non-technical audience — and is not a definitional source by
+this register's convention, despite containing a "Consolidated Findings" section.

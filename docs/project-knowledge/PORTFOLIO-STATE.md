@@ -1,6 +1,6 @@
 # Portfolio State
 
-**Generated on:** 2026-08-30 (updated twice — see revision notes below)
+**Generated on:** 2026-08-30 (updated three times — see revision notes below)
 **Scope:** skeleton only. The `Status` column is deliberately left as `TBD` for every row —
 completion state was **not** assessed or inferred. Fill it in manually.
 
@@ -9,10 +9,15 @@ completion state was **not** assessed or inferred. Fill it in manually.
 > reflect `RRA-Shenandoah-Valley-Water-Authority.md`'s Aug 27 credential-remediation correction (see
 > `FINDINGS-REGISTER.md` inconsistency #1).
 >
-> **Revision note (2nd update):** now covers 11 files following the addition of
-> `Artifact-8-Client-Deliverable-Report.md`. **There is no `Artifact-7` anywhere in the repository** —
-> confirmed by directory listing, not inferred. The numbering gap is unexplained; noted here rather
-> than silently skipped.
+> **Revision note (2nd update):** covered 11 files following the addition of
+> `Artifact-8-Client-Deliverable-Report.md`. Flagged that no `Artifact-7` existed anywhere in the
+> repository as an open `UNVERIFIED` item.
+>
+> **Revision note (3rd update):** now covers 12 files following the addition of
+> `Artifact-7-Water-Sector-Cyber-Risk-Package.md`. **The Artifact-7 gap flagged in the 2nd update is
+> resolved** — the file now exists. Retained below as a dated note (consistent with how the Finding 1
+> contradiction in inconsistency #1 was handled) rather than deleted outright, since the gap was real
+> at the time it was flagged.
 
 ---
 
@@ -26,6 +31,7 @@ completion state was **not** assessed or inferred. Fill it in manually.
 | `Artifact-5-ATTCK-Oldsmar-Case-Study.md` | MITRE ATT&CK for ICS Incident Mapping | 1499 | 2026-08-27 | TBD |
 | `Artifact-6-Mirroring-Investigation-Handoff.md` | Port Mirroring Investigation — Artifact 6 (Suricata Threat Detection) | 2189 | 2026-08-30 | TBD |
 | `Artifact-6-Threat-Detection-Assessment.md` | OT Threat Detection Assessment | 3127 | 2026-08-30 | TBD |
+| `Artifact-7-Water-Sector-Cyber-Risk-Package.md` | Water Sector Cyber Risk Package | 2291 | 2026-08-30 | TBD |
 | `Artifact-8-Client-Deliverable-Report.md` | OT Cybersecurity Assessment | 2708 | 2026-08-30 | TBD |
 | `Crosswalk-NIST80053-IEC62443-Shenandoah-Valley.md` | NIST 800-53 / IEC 62443 Crosswalk | 880 | 2026-08-27 | TBD |
 | `EPA-Checklist-Shenandoah-Valley-Water-Authority.md` | EPA Cybersecurity Checklist Assessment | 1485 | 2026-08-27 | TBD |
@@ -40,21 +46,28 @@ Last-commit dates are `git log -1 --format=%ad --date=short -- <file>`. The RRA'
 its content was otherwise last substantively written 2026-08-27.
 
 Note: filenames use three different naming conventions now — five are
-`<Type>-Shenandoah-Valley-...`, five are `Artifact-<n>-...`, and Artifact 6 alone has
+`<Type>-Shenandoah-Valley-...`, six are `Artifact-<n>-...`, and Artifact 6 alone has
 **two** files sharing its number (`Artifact-6-Threat-Detection-Assessment.md`, the primary
 deliverable, and `Artifact-6-Mirroring-Investigation-Handoff.md`, a linked but separate
 investigation record it explicitly defers to in its Section 7). No file is named
-`Artifact-1`, `Artifact-2`, or **`Artifact-7`** — the numbering jumps from 6 directly to 8.
-`Artifact-8-Client-Deliverable-Report.md`'s own Section 8 ("Supporting Documentation") lists
-every other artifact by description, not by number, and does not itself explain the gap.
-**UNVERIFIED — confirm whether Artifacts 1, 2, and 7 exist elsewhere, were never produced, or
-were intentionally skipped (e.g. reserved for a future deliverable).**
+`Artifact-1` or `Artifact-2`.
+**UNVERIFIED — confirm whether Artifacts 1 and 2 exist elsewhere or were never produced.**
+
+**Resolved, 2026-08-30 (3rd update):** the previous version of this note flagged that no
+`Artifact-7` existed and the numbering jumped from 6 to 8. `Artifact-7-Water-Sector-Cyber-Risk-Package.md`
+has since been added. Its own Section 8 ("Component Document Index") explicitly identifies
+itself as the integration layer connecting the RRA, ERP, AWWA assessment, EPA checklist, and
+crosswalk — five files that already existed under the `<Type>-Shenandoah-Valley-...` naming
+convention, which explains why the gap was never a missing document so much as a
+not-yet-written one: Artifact 7 formalizes relationships among files that predated it.
 
 ---
 
 ## `git log --oneline -20`
 
 ```
+3cdf67c Add Artifact 7 (Water Sector Cyber Risk Package) - integration document, formalizes Findings 7.1-7.3, establishes finding identifier convention
+a9b29c9 Update portfolio state and findings register for Artifact 8
 c08b654 Add Artifact 8 (Client Deliverable Report) - executive synthesis of full assessment
 100cc15 Resolve Finding 1 status contradiction in RRA; update portfolio state and findings register for Artifacts 4-6
 b7f045c Add Artifact 6 (OT Threat Detection Assessment) - Suricata deployment, detection coverage findings, positive control verification
@@ -74,27 +87,26 @@ e37dae0 Merge training certificates and operations-linkage notes from portfolio 
 b11ed46 Initial commit: OT/ICS homelab foundation with Proxmox networking and troubleshooting documentation
 ```
 
-The repository contains 17 commits in total as of this update (was 15 after the previous
-update, 12 at first generation); `-20` returns all of them. The commit finalizing this
-2nd update is not yet reflected in the list above, since `git log` was run before it was
-created.
+The repository contains 19 commits in total as of this update (was 17 after the 2nd update,
+15 after the 1st, 12 at first generation); `-20` returns all of them. The commit finalizing
+this 3rd update is not yet reflected in the list above, since `git log` was run before it
+was created.
 
 ---
 
 ## `git status --short`
 
-Captured at generation time, **before** this (2nd) update's changes were staged, and
-**after** `Artifact-8-Client-Deliverable-Report.md` was already committed and pushed
-(`c08b654`) in a separate, prior commit:
+Captured at generation time, **before** this (3rd) update's changes were staged, and
+**after** `Artifact-7-Water-Sector-Cyber-Risk-Package.md` was already committed and pushed
+(`3cdf67c`) in a separate, prior commit:
 
 ```
 (clean — no output)
 ```
 
 `PORTFOLIO-STATE.md` and `FINDINGS-REGISTER.md` were staged after this snapshot, as a
-second, separate commit from the Artifact 8 addition itself — per instruction, index
-updates are tracked independently from the content commit they describe. See the task
-report for the final post-staging status.
+second, separate commit from the Artifact 7 addition itself — consistent with how the
+Artifact 8 index update was sequenced. See the task report for the final post-staging status.
 
 ---
 
