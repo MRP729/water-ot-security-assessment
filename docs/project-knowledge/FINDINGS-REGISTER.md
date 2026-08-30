@@ -249,3 +249,7 @@ also explicitly states this register's identifier-scheme convention — see inco
 `Artifact-8-Client-Deliverable-Report.md` defines no new findings of its own — it is a relabeling
 of the other three sources for a non-technical audience — and is not a definitional source by
 this register's convention, despite containing a "Consolidated Findings" section.
+
+## Open documentation item — flagged during Phase 5 (5.2 README review)
+
+Findings 2 and 3 carry severity strings only (`(High)`, `(Medium, methodological)`) with no `Open`/`Remediated` status field in this register or in Artifact 3. Artifact 8's lettered re-presentation asserts `(Remediated)` for the corresponding findings (Finding C → Finding 2, Finding B → Finding 3). This is a genuine inconsistency between the client-facing report and the technical corpus, to be reconciled during the Phase 5.4 consistency pass per Methodology §8 step 5.

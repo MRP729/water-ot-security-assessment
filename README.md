@@ -1,482 +1,220 @@
-﻿\# OT/ICS Cybersecurity Homelab
-
-
-
-A production-grade OT/ICS network testbed designed to model water utility infrastructure. This repository documents the design, implementation, and security hardening of an isolated, segmented industrial control system network using Purdue Model architecture.
-
-
-
-\*\*Audience:\*\* OT/ICS Security Engineers, Infrastructure Engineers, and Security Assessment Professionals
-
-
-
-\---
-
-
-
-\## Project Goal
-
-
-
-Demonstrate hands-on engineering capability in OT/ICS network design, segmentation, threat detection, and security assessment through a fully documented, working homelab environment.
-
-
-
-This is not a tutorial reproduction. Every design decision, troubleshooting session, and configuration change is documented with clear justification of \*\*why\*\* the approach was chosen.
-
-
-
-\---
-
-
-
-\## Architecture Overview
-
-
-
-\### Purdue Model Implementation
-
-
-
-The homelab follows the Purdue Model (ISA-95) with functional zones representing industrial control system operations:
-
-
-
-\- \*\*Level 0 - Field/Control:\*\* PLC-based process control and sensor/actuator interfaces
-
-\- \*\*Level 1 - Supervisory Control:\*\* SCADA HMI, historian, and real-time monitoring
-
-\- \*\*Level 2 - Operations Management:\*\* Engineering workstations and configuration access
-
-\- \*\*Level 3 - Enterprise Integration:\*\* Monitoring, logging, and security analytics
-
-
-
-\---
-
-
-
-\### Network Topology
-
-
-
-```text
-
-Proxmox Host (192.168.1.250)
-
-|
-
-|-- vmbr0 (Management) -> 192.168.1.0/24
-
-|
-
-|-- vmbr10 (PLC Network) -> 192.168.10.0/24
-
-|   \\-- VM101: PLC Controller (192.168.10.100)
-
-|
-
-|-- vmbr20 (HMI/SCADA) -> 192.168.20.0/24
-
-|   |-- VM100: HMI/SCADA (192.168.20.100)
-
-|   \\-- VM102: Historian/Database (192.168.20.101)
-
-|
-
-|-- vmbr30 (Engineering) -> 192.168.30.0/24
-
-|   \\-- VM103: Engineering Workstation (192.168.30.100)
-
-|
-
-\\-- vmbr40 (Monitoring/Security) -> 192.168.40.0/24
-
-&#x20;   \\-- VM104: IDS/Monitoring (192.168.40.100)
-
-```
-
-
-
-Each zone is isolated on its own bridge with configurable inter-zone routing and access control.
-
-
-
-\---
-
-
-
-\## Current Status
-
-
-
-\### Completed
-
-
-
-\- \*\*Proxmox infrastructure:\*\* Host networking, bridge configuration, IPv4 forwarding
-
-\- \*\*Network segmentation:\*\* Five isolated Purdue Model zones with static routing
-
-\- \*\*VM deployment:\*\* Five Ubuntu 24.04 LTS VMs with assigned roles
-
-\- \*\*Connectivity verification:\*\* Ping and SSH tested across all zones from Proxmox and Windows
-
-\- \*\*Persistent routing:\*\* Windows static routes to OT subnets configured and validated
-
-\- \*\*CISA ICS training:\*\* ICS300 and ICS401V certifications completed
-
-
-
-\### In Progress
-
-
-
-\- Historian/database VM configuration
-
-\- Engineering workstation hardening
-
-\- Monitoring VM setup (Zeek, Suricata)
-
-\- OpenPLC deployment and configuration
-
-\- SCADA platform selection and deployment
-
-
-
-\---
-
-
-
-\## Case Studies
-
-
-
-\### Case Study 001: OT/ICS Network Segmentation
-
-
-
-Implemented and validated a \*\*default-deny OT/ICS network segmentation architecture\*\* using the Proxmox VE firewall.
-
-
-
-The project demonstrates:
-
-
-
-\- Baseline network and service discovery
-
-\- Before-and-after connectivity validation
-
-\- Default-deny firewall enforcement
-
-\- Explicit allow rules for required OT communications
-
-\- Direct TCP connectivity testing
-
-\- Firewall packet counter validation
-
-\- Collection of technical evidence supporting the implementation
-
-
-
-\[\*\*View Case Study 001: OT/ICS Network Segmentation\*\*](docs/case-studies/001-network-segmentation/)
-
-
-
-\---
-
-
-
-\## Future Roadmap
-
-
-
-\- Threat detection tuning (Zeek, Suricata)
-
-\- ICS-specific vulnerability assessment
-
-\- Security controls validation
-
-\- Incident response simulation
-
-
-
-\---
-
-
-
-\## Technologies \& Skills
-
-
-
-\### Infrastructure
-
-
-
-\- Proxmox VE (hypervisor, network segmentation)
-
-\- Linux bridge networking (vmbr0-vmbr40)
-
-\- Ubuntu 24.04 LTS
-
-\- IPv4 routing and netplan configuration
-
-\- SSH key-based authentication
-
-
-
-\### OT/ICS
-
-
-
-\- OpenPLC (planned)
-
-\- SCADA platforms (evaluation in progress)
-
-\- Modbus TCP
-
-\- Historian databases
-
-\- HMI design principles
-
-
-
-\### Security \& Monitoring
-
-
-
-\- Zeek (network flow analysis)
-
-\- Suricata (network IDS)
-
-\- Wireshark (packet capture and analysis)
-
-\- Nmap (device discovery)
-
-\- Host-based firewall configuration
-
-
-
-\### Methodology
-
-
-
-\- Purdue Model (ISA-95) architecture
-
-\- NIST SP 800-82 OT security guidelines
-
-\- IEC 62443 zone/conduit design
-
-\- Risk assessment and segmentation validation
-
-
-
-\---
-
-
-
-\## Documentation Structure
-
-
-
-\### Architecture \& Design
-
-
-
-Network topology and architecture decisions are currently documented in the main project README and case study documentation.
-
-
-
-\### Build Journal
-
-
-
-\- \[\*\*2026-07-27 - OT Network Foundation\*\*](docs/build-journal.md#2026-07-27) - Initial networking setup and verification
-
-
-
-\### Troubleshooting \& Lessons Learned
-
-
-
-\- \[\*\*Proxmox Networking\*\*](docs/troubleshooting/001-proxmox-networking.md) - Bridge configuration, management IP placement, and ARP conflicts
-
-
-
-Additional routing and PLC networking troubleshooting documentation will be added as the lab continues to develop.
-
-
-
-\### Configuration Templates
-
-
-
-\- \[\*\*Firewall Rules\*\*](configs/firewall/) - Inter-zone access control examples
-
-
-
-Additional Proxmox and netplan configuration templates will be added as the lab continues to develop.
-
-
-
-\---
-
-
-
-\## Key Insights
-
-
-
-\### Networking Foundation First
-
-
-
-Before deploying OT applications such as OpenPLC and SCADA platforms, establish a solid network foundation. Issues with routing and bridging can be difficult to distinguish from application-layer problems.
-
-
-
-\### Purdue Model Segmentation is an Operational Necessity, Not Just Security
-
-
-
-Segmentation is not just a security control. The zones reflect operational responsibilities and help provide failure isolation between different functions.
-
-
-
-\### Bridge IP Placement Matters
-
-
-
-Management connectivity reliability depends on assigning the management IP to the Linux bridge rather than the physical NIC. This was one of the most impactful lessons learned during the initial setup.
-
-
-
-\### Context Matters in OT Troubleshooting
-
-
-
-A problem that looks like a routing failure might be an ARP cache issue. A connectivity failure might be caused by a firewall rule. Each layer must be validated independently.
-
-
-
-\---
-
-
-
-\## How to Use This Repository
-
-
-
-\### For Hiring Managers / Technical Interviewers
-
-
-
-\- Read the Architecture Overview and Network Topology to understand the system design
-
-\- Review the Build Journal to see real-time problem-solving and decision-making
-
-\- Check the troubleshooting documentation to see how complex problems are diagnosed and resolved
-
-\- Review the configuration templates to see infrastructure and security configuration examples
-
-
-
-\### For OT/ICS Engineers
-
-
-
-\- Use the troubleshooting documentation as a reference for common homelab issues
-
-\- Adapt the network topology for your own lab setup
-
-\- Review the firewall configuration templates as examples for inter-zone access control
-
-
-
-\---
-
-
-
-\## Skills Demonstrated
-
-
-
-\- \*\*OT/ICS Fundamentals\*\* - Purdue Model, zone design, and process control concepts
-
-\- \*\*Network Engineering\*\* - Segmentation, routing, bridge configuration, and firewall rules
-
-\- \*\*Linux System Administration\*\* - Ubuntu, netplan, IPv4 routing, and firewall administration
-
-\- \*\*Virtualization\*\* - Proxmox and VM deployment with network isolation
-
-\- \*\*Security Assessment\*\* - Threat detection, vulnerability scanning, and compliance frameworks
-
-\- \*\*Documentation\*\* - Technical writing, architecture documentation, and troubleshooting procedures
-
-\- \*\*Problem-Solving\*\* - Root cause analysis, layer-by-layer investigation, and systematic validation
-
-
-
-\---
-
-
-
-\## Credentials \& Certifications
-
-
-
-\- \*\*CompTIA Security+\*\* (June 2025)
-
-\- \*\*CISA ICS300\*\* (July 2026)
-
-\- \*\*CISA ICS401V\*\* (July 2026)
-
-
-
-\---
-
-
-
-\## Education
-
-
-
-\- \*\*Master of Business Administration (MBA)\*\* - Georgia Southern University
-
-\- \*\*Bachelor's Degree in Recreation and Sports Management\*\* - Florida International University
-
-
-
-\---
-
-
-
-\## License
-
-
-
-This project is licensed under the \[MIT License](LICENSE).
-
-
-
-\---
-
-
-
-\## Contact \& Collaboration
-
-
-
-This repository is part of a broader OT/ICS cybersecurity portfolio. For questions about the lab design, methodology, or security posture, reach out through GitHub Issues.
-
-
-
-\---
-
-
-
-\*\*Last Updated:\*\* 2026-08-20  
-
-\*\*Lab Status:\*\* Active Development
-
+# OT/ICS Cybersecurity Assessment Portfolio — Water Sector
+
+A complete, evidence-backed security assessment of a water utility's operational
+technology (OT) network, conducted end-to-end in a purpose-built Purdue-aligned
+lab. The portfolio covers asset inventory and criticality ranking, network
+segmentation before/after remediation, threat detection deployment, a historical
+incident mapped to MITRE ATT&CK for ICS, and a full water-sector regulatory
+compliance package — presented as an assessor would deliver it to a utility.
+
+**Subject:** Shenandoah Valley Water Authority — a fictional community water
+system, modeled on the process and network realities of a real one.
+
+**Author:** Moses Perodin — wastewater operations professional with 10 years plant
+management experience; worked with Ignition SCADA HMI for monitoring and
+operational insight; now pivoting to OT/ICS cybersecurity assessment.
+
+---
+
+## 1. What This Portfolio Is
+
+This is an **assessment portfolio**, not an engineering demonstration. Every
+artifact reads as the work of an assessor establishing whether a control exists
+and functions — not as an operator demonstrating exploitation, and not as an
+engineer building a SCADA system.
+
+Three things distinguish the work:
+
+- **Consequence-based finding framing.** Findings are ranked by what they let
+  someone do to the physical process — interrupt treatment, manipulate a dosing
+  setpoint, mask an alarm — not by raw CVSS score. In an OT environment the
+  question is not "what can an attacker reach easiest" but "what happens to the
+  water if they get there."
+- **Operational state over configuration.** Three times in this project, security
+  configuration was present in the right files, looked correct on inspection, and
+  was doing nothing: firewall rules never enforced by the platform, an IDS
+  reporting healthy while inspecting zero packets, a custom rule silently ignored
+  on a path mismatch. Every claim traces to a captured command output, and
+  re-verification uses the identical method as the original test.
+- **Unresolved findings are legitimate output.** Two investigations (a PLC→historian
+  egress anomaly, a port-mirroring fault four layers deep) were paused and
+  documented rather than chased indefinitely or quietly dropped. Two false-positive
+  conclusions were caught mid-assessment and corrected in place rather than
+  smoothed over.
+
+### The operations-to-assessment angle
+
+The competitive premise of this portfolio is that an operator ranks OT assets by
+**consequence to the physical process**, while a pure-IT assessor ranks them by
+**network exposure** — and in an OT environment those two orderings produce
+materially different, and better, prioritization.
+
+That premise is worked out concretely in
+[`docs/operations-linkage/ICS401V-Operations-Linkage.md`](docs/operations-linkage/ICS401V-Operations-Linkage.md),
+which maps CISA ICS401V assessment concepts to direct experience running a
+pretreatment anaerobic digester plant:
+
+| Operational experience | Assessment concept it informs |
+|---|---|
+| Biogas flare as an explosion barrier | Safety Instrumented System (SIS) integrity as a separate, higher-priority category (TRITON/TRISIS) |
+| DAF chemical dosing drift cascading to a downstream plant's permit | Silent setpoint manipulation as a stealth attack vector (Stuxnet) |
+| Buffered vs. unbuffered process stages | Criticality ranking by operational impact, not generic CVSS |
+| SBR phase-dependent instrument readings | Process-state-aware anomaly detection, not just protocol signatures |
+| A sequential, functionally isolated treatment train | Whether network segmentation actually matches process segmentation |
+
+This linkage runs through the whole artifact set: the PLC is the RRA's highest
+risk because it is the only asset with a direct, unmediated path to physical
+consequence — an operations judgment, not a scan result.
+
+---
+
+## 2. The Lab
+
+A virtualized OT/ICS testbed on Proxmox VE, segmented into Purdue-aligned zones.
+The lab is a *representative environment*, not a claim of a real utility network;
+where it diverges from a real plant, the artifacts say so.
+
+| Zone (bridge) | Subnet | Hosts |
+|---|---|---|
+| Field / Control (`vmbr10`) | 192.168.10.0/24 | VM101 `plc-controller` — OpenPLC Runtime |
+| Supervisory / HMI (`vmbr20`) | 192.168.20.0/24 | VM100 `hmi-scada` (Apache) · VM102 `historian-db` (PostgreSQL) |
+| Engineering (`vmbr30`) | 192.168.30.0/24 | VM103 `workstation-eng` · VM105 `kali-attack` (assessment platform) |
+| Monitoring (`vmbr40`) | 192.168.40.0/24 | VM104 `monitor-wireshark` — Suricata 7.0.3 IDS |
+| Management (`vmbr0`) | 192.168.1.0/24 | Proxmox host |
+
+Legitimate operational conduits: HMI↔PLC (Modbus TCP/502), HMI↔Historian
+(PostgreSQL/5432), all zones→Monitoring (TCP/514). Everything else is default-deny.
+
+Lab build history is in [`docs/build-journal.md`](docs/build-journal.md);
+live topology (generated read-only from the hypervisor) is in
+[`docs/project-knowledge/LAB-TOPOLOGY.md`](docs/project-knowledge/LAB-TOPOLOGY.md).
+
+---
+
+## 3. How to Navigate the Artifacts
+
+All artifacts live in [`docs/artifacts/`](docs/artifacts/). They are meant to be
+read in roughly this order — each depends on inputs from the ones before it.
+
+| # | Artifact | What it establishes |
+|---|---|---|
+| 2 | [ICS401V Operations Linkage](docs/operations-linkage/ICS401V-Operations-Linkage.md) | The operations-to-assessment reasoning the rest of the portfolio applies |
+| 3 | [Segmentation Assessment](docs/artifacts/Artifact-3-Segmentation-Assessment.md) **(flagship)** | Before/after network segmentation, verified by identical repeat testing. Origin of Findings 1–4 |
+| 4 | [Asset Inventory & Criticality](docs/artifacts/Artifact-4-Asset-Inventory-Criticality.md) | Consequence-based criticality ranking; feeds the RRA's asset register |
+| 5 | [MITRE ATT&CK — Oldsmar Case Study](docs/artifacts/Artifact-5-ATTCK-Oldsmar-Case-Study.md) | Blue-team retrospective on the 2021 Oldsmar incident, lessons applied to this architecture |
+| 6 | [Threat Detection Assessment](docs/artifacts/Artifact-6-Threat-Detection-Assessment.md) | Suricata deployment, detection-coverage evaluation, positive-control verification. Origin of Findings 6.1–6.4 |
+| 6a | [Mirroring Investigation Handoff](docs/artifacts/Artifact-6-Mirroring-Investigation-Handoff.md) | Linked but separate: a paused port-mirroring investigation, using `Fault N` vocabulary by design (see §4) |
+| 7 | [Water Sector Cyber Risk Package](docs/artifacts/Artifact-7-Water-Sector-Cyber-Risk-Package.md) **(flagship)** | Integration layer for the compliance package. Origin of Findings 7.1–7.3 |
+| 8 | [Client Deliverable Report](docs/artifacts/Artifact-8-Client-Deliverable-Report.md) | Executive synthesis for a non-technical reader; findings re-presented A–H by operational consequence |
+
+### Why Artifact 7 is one artifact in six files
+
+Artifact 7 is an **integration document**. It exists because its five component
+deliverables are not independent — each one's conclusions depend on inputs from
+the others, and reading any one in isolation gives an incomplete picture. They
+are separate files because they serve different regulatory purposes, are read by
+different audiences, and are revised on different cadences (a statutory RRA on a
+five-year cycle; an ERP whenever the architecture changes). Merging them would
+make each worse.
+
+| File | Role |
+|---|---|
+| [`Artifact-7-Water-Sector-Cyber-Risk-Package.md`](docs/artifacts/Artifact-7-Water-Sector-Cyber-Risk-Package.md) | The connective tissue — how the components interlock and in what order they must be updated |
+| [`RRA-Shenandoah-Valley-Water-Authority.md`](docs/artifacts/RRA-Shenandoah-Valley-Water-Authority.md) | Risk & Resilience Assessment — *statutorily required* (AWIA §2013) |
+| [`ERP-Shenandoah-Valley-Water-Authority.md`](docs/artifacts/ERP-Shenandoah-Valley-Water-Authority.md) | Emergency Response Plan — *statutorily required* (AWIA §2013) |
+| [`AWWA-Assessment-Shenandoah-Valley-Water-Authority.md`](docs/artifacts/AWWA-Assessment-Shenandoah-Valley-Water-Authority.md) | AWWA maturity self-assessment — voluntary |
+| [`EPA-Checklist-Shenandoah-Valley-Water-Authority.md`](docs/artifacts/EPA-Checklist-Shenandoah-Valley-Water-Authority.md) | EPA 817-B-23-001 item-level gap analysis — voluntary |
+| [`Crosswalk-NIST80053-IEC62443-Shenandoah-Valley.md`](docs/artifacts/Crosswalk-NIST80053-IEC62443-Shenandoah-Valley.md) | Control-level traceability to NIST 800-53 Rev. 5 and ISA/IEC 62443-3-3 |
+
+### Supporting material
+
+- [`docs/case-studies/001-network-segmentation/`](docs/case-studies/001-network-segmentation/) — the segmentation work as a standalone case study, with the raw connectivity-test and firewall-counter evidence under `evidence/`
+- [`configs/firewall/network-segmentation/`](configs/firewall/network-segmentation/) — the Proxmox firewall policies as deployed
+- [`docs/troubleshooting/`](docs/troubleshooting/) — Proxmox networking lessons learned
+- [`docs/project-knowledge/`](docs/project-knowledge/) — methodology, findings register, portfolio state, lab topology
+
+---
+
+## 4. Finding Identifier Convention
+
+The portfolio uses **artifact-scoped finding identifiers**: a finding is numbered
+by the artifact that identified it.
+
+| Scheme | Used by | Meaning |
+|---|---|---|
+| `Finding N` (bare integer) | Artifact 3 | Findings 1–4. Predate the scoped convention; **not renumbered**, because they are cross-referenced by ID across eight committed documents |
+| `Finding N.N` (artifact-scoped) | Artifacts 6 and 7 | 6.1–6.4 (detection coverage), 7.1–7.3 (systemic/governance) |
+| `Finding A`–`H` (lettered) | Artifact 8 | An audience-specific re-presentation of the above for a non-technical reader — *not* a separate investigation. Every letter traces back to a numbered finding |
+| `Fault N` | Mirroring Investigation Handoff (6a) | Deliberately **not** called a "finding" — these are unresolved debugging observations, not security findings against the assessed environment |
+
+Authoritative status for every finding, and every place it is referenced, lives
+in [`docs/project-knowledge/FINDINGS-REGISTER.md`](docs/project-knowledge/FINDINGS-REGISTER.md).
+Summary:
+
+| ID | Finding | Status |
+|---|---|---|
+| 1 | Default credentials on the PLC web management interface | ✅ Remediated (Aug 27, 2026) |
+| 2 | Historian database access controlled at the application layer only (High) | ⚠️ Network path from Engineering closed by segmentation (Artifact 3); not formally closed in the register |
+| 3 | Configuration-vs-enforcement gap on PLC and historian firewalls (Medium) | ⚠️ Firewall enforcement now active (Artifact 3); not formally closed in the register |
+| 4 | HMI web interface unencrypted (HTTP only, no TLS) (Medium) | ⬜ Open |
+| 6.1 | Stock Suricata config referenced a nonexistent interface — 14,000+ silent restart cycles | ✅ Remediated |
+| 6.2 | Custom detection rule silently not loaded — rule-path resolution mismatch | ✅ Remediated |
+| 6.3 | Sensor behind default-deny firewall structurally cannot see blocked traffic | ⬜ Open |
+| 6.4 | Stock ET Open ruleset has no rate-based SSH brute-force detection | ⬜ Open |
+| 7.1 | No multi-factor authentication anywhere in the OT environment | ⬜ Open (High) |
+| 7.2 | No backup or tested recovery capability for OT systems | ⬜ Open (High) |
+| 7.3 | No named OT cybersecurity accountability or change control | ⬜ Open (High) |
+
+---
+
+## 5. Methodology Principles
+
+Established during the work and carried across every artifact. Full detail in
+[`docs/project-knowledge/ASSESSMENT-METHODOLOGY.md`](docs/project-knowledge/ASSESSMENT-METHODOLOGY.md).
+
+- **Configuration ≠ enforcement.** Verify operational state — rule counts,
+  enforcement counters, restart counts — not the presence of a config file.
+- **Verify the pipeline before interpreting an absence of detections.** "No alerts
+  fired" is equally consistent with good coverage, a coverage gap, and a broken
+  sensor. The positive-control test is what tells them apart.
+- **Consequence-based ranking produces different priorities than exploitability-based
+  ranking.** This is the operations background doing analytical work, not framing.
+- **Restraint is a deliverable.** `-T3` scan timing is deliberate — aggressive
+  scanning can destabilize legacy PLCs. An assessment that disrupts the process it
+  protects has failed regardless of findings. The restraint is documented.
+- **Phase order is strict:** capture the complete before-evidence set → baseline
+  services → implement the change → repeat identical tests → compare. No changes
+  until the full before-set is captured.
+
+---
+
+## 6. Credentials
+
+- **CompTIA Security+** (June 2025)
+- **CISA ICS300** (86%, July 2026)
+- **CISA ICS401V** — all 13 modules (July 2026)
+
+Certificates: [`docs/training-certificates/`](docs/training-certificates/)
+
+---
+
+## 7. Education
+
+- **MBA** — Georgia Southern University
+- **BS, Recreation and Sports Management** — Florida International University
+
+---
+
+## 8. Roadmap
+
+The assessment scope above is complete. The portfolio's next phase extends the
+same assessment discipline to AI risk in critical infrastructure — a NIST AI RMF
+assessment of ML-based chemical dosing at the same fictional utility, crosswalked
+to IEC 62443 and NIST SP 800-82.
+
+---
+
+## 9. License
+
+[MIT License](LICENSE). The subject utility, its network, and all findings are
+fictional and were produced in an isolated lab.
