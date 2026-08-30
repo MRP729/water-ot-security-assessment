@@ -1,16 +1,21 @@
 # Findings Register
 
-**Generated on:** 2026-08-30 (updated — see revision note below)
-**Scope of scan:** `docs/artifacts/*.md` only (10 files as of this update). Evidence
+**Generated on:** 2026-08-30 (updated twice — see revision notes below)
+**Scope of scan:** `docs/artifacts/*.md` only (11 files as of this update). Evidence
 directories, `.nmap` / `.xml` / `.gnmap` / `.pcap` files, and Suricata rule files were
 **not** read.
 **Method:** identifiers are reported as the raw string used in each document. They have
 not been normalised, renumbered, or reconciled.
 
-> **Revision note:** this file was first generated 2026-08-30 covering 5 findings across
-> 8 artifacts. It is now updated to add `Finding 6.1`–`6.4` from the new Artifact 6
-> deliverables, and to close out inconsistency #1 below, which is now resolved at the
+> **Revision note (1st update):** this file was first generated 2026-08-30 covering 5 findings across
+> 8 artifacts. It was then updated to add `Finding 6.1`–`6.4` from the new Artifact 6
+> deliverables, and to close out inconsistency #1 below, which was resolved at the
 > source rather than merely observed.
+>
+> **Revision note (2nd update):** `Artifact-8-Client-Deliverable-Report.md` was added.
+> It does **not** introduce new findings to track — see inconsistency #7, extended below,
+> for why its lettered `Finding A`–`H` are recorded as a fourth identifier scheme rather
+> than as new register rows.
 
 ---
 
@@ -138,11 +143,41 @@ a fourth status vocabulary distinct from all of the above.
 findings, a different category from Artifact 3's vulnerability findings) or should be reconciled
 to the single fixed vocabulary the methodology doc specifies.**
 
+**Extension (2nd update): a fourth scheme, lettered `Finding A`–`H`, in
+`Artifact-8-Client-Deliverable-Report.md` Section 4 ("Consolidated Findings").** This is the
+executive-audience deliverable and explicitly frames itself as ordering findings "by operational
+consequence, not by technical severity score" (line 72) — a deliberate re-presentation for a
+non-technical reader, not a new investigation.
+
+**These are not recorded as new register rows, but the mapping is not as clean as a pure
+relabeling would suggest — verified by reading each lettered finding against the existing
+register, not assumed:**
+
+| Letter | Title | Maps to |
+|---|---|---|
+| Finding A | Default vendor credentials on the process controller | `Finding 1` (Artifact 3) |
+| Finding B | Flat network permitting direct Engineering-to-controller access | `Finding 3` region (the segmentation-enforcement gap Finding 3 documents), also draws on Finding 1's exposure numbers |
+| Finding C | Historian database directly exposed | `Finding 2` (Artifact 3) |
+| Finding D | No encryption on the operator interface | `Finding 4` (Artifact 3) |
+| Finding E | No multi-factor authentication | **no prior register entry** — new content, not previously tracked as a numbered/lettered finding anywhere in the portfolio (raised only as a recommendation/gap elsewhere) |
+| Finding F | Intrusion detection coverage gaps | `Finding 6.3` and `Finding 6.4` (Artifact 6), merged into one |
+| Finding G | No tested backup or recovery capability | **no prior register entry** — new |
+| Finding H | Governance and accountability gaps | **no prior register entry** — new, though thematically adjacent to material in the AWWA assessment's maturity scoring |
+
+So: **A, C, D are 1:1 relabelings; B and F are many-to-one consolidations; E, G, and H introduce
+content that was not previously a discrete tracked finding under any of the other three schemes.**
+Calling all eight purely "re-presentations of existing findings" would overstate how much of
+Section 4 is actually new synthesis versus restatement. Neither view is wrong on its own — this
+register simply records the distinction rather than picking one framing.
+**UNVERIFIED — confirm whether Findings E, G, and H should retroactively get numbered entries in
+one of the technical artifacts, or are intentionally scoped to exist only at the executive-summary
+level.**
+
 ---
 
 ## Scan coverage note
 
-All 10 files in `docs/artifacts/` were scanned as of this update:
+All 11 files in `docs/artifacts/` were scanned as of this update:
 
 ```
 AWWA-Assessment-Shenandoah-Valley-Water-Authority.md
@@ -151,6 +186,7 @@ Artifact-4-Asset-Inventory-Criticality.md
 Artifact-5-ATTCK-Oldsmar-Case-Study.md
 Artifact-6-Mirroring-Investigation-Handoff.md
 Artifact-6-Threat-Detection-Assessment.md
+Artifact-8-Client-Deliverable-Report.md
 Crosswalk-NIST80053-IEC62443-Shenandoah-Valley.md
 EPA-Checklist-Shenandoah-Valley-Water-Authority.md
 ERP-Shenandoah-Valley-Water-Authority.md
@@ -160,5 +196,7 @@ RRA-Shenandoah-Valley-Water-Authority.md
 No canonical findings register exists in `docs/artifacts/`; `Artifact-3-Segmentation-Assessment.md`
 remains the de facto source of definitions for Findings 1–4 (it is the only file that defines all
 four with titles and severities, and is cited as such by the RRA — `Finding (ref. Artifact 3)`,
-RRA:46). `Artifact-6-Threat-Detection-Assessment.md` is now the de facto source of definitions for
-Findings 6.1–6.4, by the same logic — it is the only file that defines them.
+RRA:46). `Artifact-6-Threat-Detection-Assessment.md` is the de facto source of definitions for
+Findings 6.1–6.4, by the same logic. `Artifact-8-Client-Deliverable-Report.md` defines no new
+findings of its own — see inconsistency #7 — and is not a definitional source by this register's
+convention, despite containing a "Consolidated Findings" section.

@@ -1,13 +1,18 @@
 # Portfolio State
 
-**Generated on:** 2026-08-30 (updated — see revision note below)
+**Generated on:** 2026-08-30 (updated twice — see revision notes below)
 **Scope:** skeleton only. The `Status` column is deliberately left as `TBD` for every row —
 completion state was **not** assessed or inferred. Fill it in manually.
 
-> **Revision note:** this file was first generated 2026-08-30 covering 8 artifacts. It is
-> now updated to cover all 10 files present in `docs/artifacts/` following the addition of
-> Artifacts 4, 5, and 6 (two files), and to reflect `RRA-Shenandoah-Valley-Water-Authority.md`'s
-> Aug 27 credential-remediation correction (see `FINDINGS-REGISTER.md` inconsistency #1).
+> **Revision note (1st update):** this file was first generated 2026-08-30 covering 8 artifacts. It was
+> then updated to cover 10 files following the addition of Artifacts 4, 5, and 6 (two files), and to
+> reflect `RRA-Shenandoah-Valley-Water-Authority.md`'s Aug 27 credential-remediation correction (see
+> `FINDINGS-REGISTER.md` inconsistency #1).
+>
+> **Revision note (2nd update):** now covers 11 files following the addition of
+> `Artifact-8-Client-Deliverable-Report.md`. **There is no `Artifact-7` anywhere in the repository** —
+> confirmed by directory listing, not inferred. The numbering gap is unexplained; noted here rather
+> than silently skipped.
 
 ---
 
@@ -21,6 +26,7 @@ completion state was **not** assessed or inferred. Fill it in manually.
 | `Artifact-5-ATTCK-Oldsmar-Case-Study.md` | MITRE ATT&CK for ICS Incident Mapping | 1499 | 2026-08-27 | TBD |
 | `Artifact-6-Mirroring-Investigation-Handoff.md` | Port Mirroring Investigation — Artifact 6 (Suricata Threat Detection) | 2189 | 2026-08-30 | TBD |
 | `Artifact-6-Threat-Detection-Assessment.md` | OT Threat Detection Assessment | 3127 | 2026-08-30 | TBD |
+| `Artifact-8-Client-Deliverable-Report.md` | OT Cybersecurity Assessment | 2708 | 2026-08-30 | TBD |
 | `Crosswalk-NIST80053-IEC62443-Shenandoah-Valley.md` | NIST 800-53 / IEC 62443 Crosswalk | 880 | 2026-08-27 | TBD |
 | `EPA-Checklist-Shenandoah-Valley-Water-Authority.md` | EPA Cybersecurity Checklist Assessment | 1485 | 2026-08-27 | TBD |
 | `ERP-Shenandoah-Valley-Water-Authority.md` | Emergency Response Plan — OT/ICS Environment | 1223 | 2026-08-26 | TBD |
@@ -34,18 +40,23 @@ Last-commit dates are `git log -1 --format=%ad --date=short -- <file>`. The RRA'
 its content was otherwise last substantively written 2026-08-27.
 
 Note: filenames use three different naming conventions now — five are
-`<Type>-Shenandoah-Valley-...`, four are `Artifact-<n>-...`, and Artifact 6 alone has
+`<Type>-Shenandoah-Valley-...`, five are `Artifact-<n>-...`, and Artifact 6 alone has
 **two** files sharing its number (`Artifact-6-Threat-Detection-Assessment.md`, the primary
 deliverable, and `Artifact-6-Mirroring-Investigation-Handoff.md`, a linked but separate
 investigation record it explicitly defers to in its Section 7). No file is named
-`Artifact-1` or `Artifact-2`.
-**UNVERIFIED — confirm whether Artifacts 1 and 2 exist elsewhere or were never produced.**
+`Artifact-1`, `Artifact-2`, or **`Artifact-7`** — the numbering jumps from 6 directly to 8.
+`Artifact-8-Client-Deliverable-Report.md`'s own Section 8 ("Supporting Documentation") lists
+every other artifact by description, not by number, and does not itself explain the gap.
+**UNVERIFIED — confirm whether Artifacts 1, 2, and 7 exist elsewhere, were never produced, or
+were intentionally skipped (e.g. reserved for a future deliverable).**
 
 ---
 
 ## `git log --oneline -20`
 
 ```
+c08b654 Add Artifact 8 (Client Deliverable Report) - executive synthesis of full assessment
+100cc15 Resolve Finding 1 status contradiction in RRA; update portfolio state and findings register for Artifacts 4-6
 b7f045c Add Artifact 6 (OT Threat Detection Assessment) - Suricata deployment, detection coverage findings, positive control verification
 92b9380 Document port mirroring investigation for Artifact 6 (paused, four faults resolved/diagnosed, evidence path pivoted)
 ea238f4 Add project-knowledge docs: lab topology, findings register, portfolio state, methodology; redact home-LAN and physical NIC data from topology generator
@@ -63,23 +74,26 @@ e37dae0 Merge training certificates and operations-linkage notes from portfolio 
 b11ed46 Initial commit: OT/ICS homelab foundation with Proxmox networking and troubleshooting documentation
 ```
 
-The repository contains 15 commits in total as of this update (was 12 at first generation);
-`-20` returns all of them. The commit finalizing this update is not yet reflected in the
-list above, since `git log` was run before it was created.
+The repository contains 17 commits in total as of this update (was 15 after the previous
+update, 12 at first generation); `-20` returns all of them. The commit finalizing this
+2nd update is not yet reflected in the list above, since `git log` was run before it was
+created.
 
 ---
 
 ## `git status --short`
 
-Captured at generation time, **before** this update's changes were staged:
+Captured at generation time, **before** this (2nd) update's changes were staged, and
+**after** `Artifact-8-Client-Deliverable-Report.md` was already committed and pushed
+(`c08b654`) in a separate, prior commit:
 
 ```
- M docs/artifacts/RRA-Shenandoah-Valley-Water-Authority.md
+(clean — no output)
 ```
 
-(The RRA shows modified rather than untracked — it already existed in the repo; only its
-content changed, correcting the Finding 1 status contradiction.) After this update,
-`PORTFOLIO-STATE.md` and `FINDINGS-REGISTER.md` were staged alongside it. See the task
+`PORTFOLIO-STATE.md` and `FINDINGS-REGISTER.md` were staged after this snapshot, as a
+second, separate commit from the Artifact 8 addition itself — per instruction, index
+updates are tracked independently from the content commit they describe. See the task
 report for the final post-staging status.
 
 ---
