@@ -84,6 +84,9 @@ where it diverges from a real plant, the artifacts say so.
 
 Legitimate operational conduits: HMI↔PLC (Modbus TCP/502), HMI↔Historian
 (PostgreSQL/5432), all zones→Monitoring (TCP/514). Everything else is default-deny.
+The full layout, with a Purdue-level overlay and the authorized-conduit table, is
+diagrammed in
+[`docs/diagrams/Zone-Conduit-Purdue-Overlay.md`](docs/diagrams/Zone-Conduit-Purdue-Overlay.md).
 
 Lab build history is in [`docs/build-journal.md`](docs/build-journal.md);
 live topology (generated read-only from the hypervisor) is in

@@ -125,6 +125,8 @@ Remediation followed the IEC 62443 zones-and-conduits model: each zone gets a de
 
 This reframing is itself defensible from a security-architecture standpoint, independent of the anomaly that forced it: routing all Field-zone data through the Supervisory zone rather than allowing Field to reach Historian directly reduces the PLC's network footprint to the single conduit it strictly needs (HMI), which is arguably tighter segmentation than the original design.
 
+The resulting zone/conduit layout, with a Purdue Model overlay, is diagrammed in [`docs/diagrams/Zone-Conduit-Purdue-Overlay.md`](../diagrams/Zone-Conduit-Purdue-Overlay.md).
+
 ---
 
 ## 6. After-State Network Posture
