@@ -1,0 +1,16 @@
+# Live iptables counter state — tap102i0-IN chain
+# Captured: 2026-08-31
+# Command: ssh pve "iptables -L tap102i0-IN -n -v"
+# Purpose: verify which sources are hitting the historian 5432 ACCEPT rules
+
+Chain tap102i0-IN (1 references)
+ pkts bytes target     prot opt in     out     source               destination
+ 5634 1815K CONNMARK   all  --  *      *       0.0.0.0/0            0.0.0.0/0            CONNMARK set 0x66
+    0     0 ACCEPT     udp  --  *      *       0.0.0.0/0            0.0.0.0/0            udp spt:67 dpt:68
+    1    60 ACCEPT     tcp  --  *      *       192.168.10.100       0.0.0.0/0            tcp dpt:5432
+    3   180 ACCEPT     tcp  --  *      *       192.168.20.100       0.0.0.0/0            tcp dpt:5432
+    0     0 ACCEPT     tcp  --  *      *       192.168.20.1         0.0.0.0/0            tcp dpt:22
+    5   252 ACCEPT     tcp  --  *      *       192.168.30.0/24      0.0.0.0/0            tcp dpt:22
+ 5625 1815K PVEFW-Drop  all  --  *      *       0.0.0.0/0            0.0.0.0/0
+   29  1676 DROP       all  --  *      *       0.0.0.0/0            0.0.0.0/0
+    0     0            all  --  *      *       0.0.0.0/0            0.0.0.0/0            /* PVESIG:gEIavi10XvIrl/TB0gDFjwUdKc8 */

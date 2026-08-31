@@ -16,9 +16,9 @@ Shenandoah Valley Water Authority's operational technology (OT) network — cove
 
 **What we did:** we implemented zone-based firewall enforcement consistent with the IEC 62443 zones-and-conduits model, closing all engineering-to-field and engineering-to-historian paths except administrative SSH access, and routed the two legitimate operational conduits (HMI-to-PLC, HMI-to-historian) through the supervisory zone as intended by the original architecture.
 
-**Result:** the PLC's exposed attack surface from Engineering dropped from five open ports to one (SSH only). The historian's database port is no longer reachable from Engineering; it remains reachable from the HMI, which is its only legitimate operational consumer. No existing monitoring or supervisory function was disrupted.
+**Result:** the PLC's exposed attack surface from Engineering dropped from five open ports to one (SSH only). The historian's database port is no longer reachable from Engineering; it remains reachable from the HMI, its live operational consumer, and from the PLC (authorized in policy but inert during the assessment window due to the egress anomaly — see Appendix A). No existing monitoring or supervisory function was disrupted.
 
-**What remains open:** one unresolved technical anomaly prevented the PLC from being configured with direct network egress to the historian under the new firewall policy — full detail and elimination methodology in Appendix A. We route around it operationally (HMI relays PLC data to the historian) rather than leave the segmentation incomplete, and we treat the anomaly itself as a legitimate, well-evidenced finding rather than a task left undone. The OpenPLC web interface's default credentials (Finding 1) were remediated on August 27, 2026, closing the highest-severity open item from this assessment cycle.
+**What remains open:** one technical anomaly prevented the PLC from establishing direct network egress to the historian during the assessment window — root cause identified (Proxmox `firewall=1` + `br_netfilter` NAT interaction), symptom temporarily cleared by a subsequent host reboot though the underlying condition persists, documented in Appendix A. We route around it operationally (HMI relays PLC data to the historian) rather than leave the segmentation incomplete, and we treat the anomaly itself as a legitimate, well-evidenced finding rather than a task left undone. The OpenPLC web interface's default credentials (Finding 1) were remediated on August 27, 2026, closing the highest-severity open item from this assessment cycle.
 
 ---
 
@@ -114,14 +114,14 @@ Remediation followed the IEC 62443 zones-and-conduits model: each zone gets a de
 **Zone boundaries enforced (via Proxmox host-level firewall, `pve-firewall`):**
 - Field/Control (vmbr10) — default deny inbound; SSH permitted only from the zone's own gateway IP (administrative access pattern)
 - Supervisory/HMI (vmbr20) — default deny inbound; SSH permitted only from the zone's own gateway IP
-- Historian's PostgreSQL port (5432) — permitted only from the HMI's IP (192.168.20.100), not from Engineering or any other source
+- Historian's PostgreSQL port (5432) — permitted from the HMI's IP (192.168.20.100) and the PLC's IP (192.168.10.100); blocked from Engineering and all other sources. The PLC rule was present but carried zero packets during the assessment window (egress anomaly, Appendix A); the HMI rule is the live operational conduit.
 
 **Conduits explicitly authorized:**
 - HMI → PLC, Modbus/502 (supervisory control conduit — verified working, 754 packets passed with 0 drops on the compiled interface counter)
 - HMI → Historian, PostgreSQL/5432 (data logging conduit — added and verified working during remediation)
 
-**Conduit deliberately not implemented as designed:**
-- PLC → Historian, direct (original architecture intent). An unresolved platform-level anomaly prevents the PLC from establishing any outbound connection beyond its own subnet once its firewall is enabled — full detail in Appendix A. The architecture was reframed so the HMI relays data between PLC and historian instead of PLC connecting directly. Both legs of this relay path (HMI↔PLC, HMI↔historian) are independently verified working.
+**Conduit authorized in policy but non-functional during assessment window:**
+- PLC → Historian, direct PostgreSQL/5432 (original architecture intent). The rule is present in `102.fw` and was retained deliberately. During the Aug 25–26 assessment window the PLC rule carried zero packets — a platform-level anomaly (Proxmox `firewall=1` + `br_netfilter` NAT interaction) prevented the PLC from establishing outbound TCP connections beyond its own subnet. Full elimination methodology in Appendix A. A subsequent host reboot cleared the transient conntrack state; re-testing on Aug 31 confirms the connection now succeeds (1 packet, counter verified). The `firewall=1` condition persists on VM101, meaning the anomaly could recur. During the assessment the architecture was reframed so the HMI relays PLC data to the historian; both relay legs (HMI↔PLC, HMI↔historian) are independently verified working.
 
 This reframing is itself defensible from a security-architecture standpoint, independent of the anomaly that forced it: routing all Field-zone data through the Supervisory zone rather than allowing Field to reach Historian directly reduces the PLC's network footprint to the single conduit it strictly needs (HMI), which is arguably tighter segmentation than the original design.
 
@@ -154,7 +154,7 @@ All 255 other addresses in the /24 returned uniformly filtered across all five p
 | HMI (192.168.20.100) | open | filtered → **filtered** (no change; HMI never ran postgres) |
 | Historian (192.168.20.101) | open | open → **filtered** |
 
-The historian's database port is no longer reachable from Engineering. It remains reachable from the HMI, per the authorized conduit rule in `102.fw`, confirmed by a direct connectivity test (HMI → historian:5432 = CONNECTED).
+The historian's database port is no longer reachable from Engineering (timeout confirmed Aug 31, 2026). It remains reachable from the HMI per the authorized conduit rule in `102.fw` (HMI → historian:5432 confirmed connected Aug 31, 2026; see `after-validation/hmi-to-historian-5432-20260831.txt`).
 
 ### 6.3 Monitoring Zone — Monitor Host (192.168.40.100)
 
@@ -190,7 +190,7 @@ The core result: **the PLC's exploitable network attack surface from the Enginee
 
 **Sequencing evidence capture matters.** Fixing the HMI's firewall before capturing baseline evidence (rather than after) meant the "before" scan doesn't show HMI's true pre-remediation exposure. This was flagged during the assessment as a sequencing consideration, not hidden after the fact — the report states plainly what the before-scan does and doesn't capture, and why. An assessment that silently presents partial evidence as complete undermines its own credibility; one that discloses the gap and explains the cause preserves it.
 
-**Not every finding resolves cleanly, and that is itself information.** The PLC-to-historian egress anomaly (Appendix A) consumed significant investigation time and was never root-caused despite systematically eliminating fourteen distinct hypotheses across routing, local firewall state, the Proxmox firewall subsystem (both the legacy and current implementations), MAC filtering, bridge topology, and kernel-level packet tracing. In a real assessment, walking away from an unresolved anomaly without documenting the elimination process would be a missed opportunity — the methodology of *how* something was ruled out is often more valuable to a receiving team than the root cause itself, because it tells them what has already been checked before they spend their own time re-checking it.
+**Not every finding resolves cleanly, and that is itself information.** The PLC-to-historian egress anomaly (Appendix A) consumed significant investigation time and resisted diagnosis through fourteen distinct hypotheses across routing, local firewall state, the Proxmox firewall subsystem (both the legacy and current implementations), MAC filtering, and bridge topology. A targeted toggle test on VM104 (disabling and re-enabling `firewall=1`) subsequently confirmed the root cause as a Proxmox `firewall=1` + `br_netfilter` NAT interaction; kernel-level packet tracing was identified as a next step but was not required once the toggle test isolated the mechanism (see Appendix A, "Not yet attempted"). A host reboot on approximately Aug 28–30 cleared the symptom, though the underlying condition persists and the anomaly could recur. In a real assessment, documenting the elimination process matters independent of whether the root cause is ultimately found — the methodology of *how* something was ruled out tells a receiving team what has already been checked before they spend their own time re-checking it, and in this case that same methodology is what surfaced the answer.
 
 **Consequence framing changes what "done" means.** A port-counting exercise (5 open → 1 open) is necessary but not sufficient. The reason the Modbus and EtherNet/IP ports mattered is that they are the mechanism by which control logic gets read or altered — the consequence is potential disruption to treatment or dosing processes, not an abstract network metric. Keeping that consequence explicit throughout the assessment (rather than only in the executive summary) is what turns a scan comparison into a security argument a plant manager can act on.
 
@@ -208,7 +208,7 @@ The full IEC 62443 / NIST 800-53 control mapping is provided as a separate cross
 
 ## Appendix A: PLC-to-Historian Egress Anomaly — Investigation Methodology
 
-**Symptom:** once the Proxmox firewall was enabled (`firewall=1`) on the PLC VM, the PLC could not establish any outbound TCP connection to any host outside its own /24 subnet — not to the historian, not to the Proxmox host's management interface, not to an arbitrary external address. This was reproducible on demand: toggling `firewall=0` restored egress immediately; toggling back to `firewall=1` broke it immediately.
+**Symptom:** once the Proxmox firewall was enabled (`firewall=1`) on the PLC VM during the Aug 25–26 assessment window, the PLC could not establish any outbound TCP connection to any host outside its own /24 subnet — not to the historian, not to the Proxmox host's management interface, not to an arbitrary external address. This was reproducible on demand: toggling `firewall=0` restored egress immediately; toggling back to `firewall=1` broke it immediately.
 
 **Hypotheses eliminated, with evidence:**
 
@@ -231,11 +231,11 @@ The full IEC 62443 / NIST 800-53 control mapping is provided as a separate cross
 
 **Also ruled out:** a second, independent firewall subsystem (`proxmox-firewall`, nftables-based) exists on this Proxmox 9.x host alongside the legacy iptables-based `pve-firewall`. It was confirmed completely inert — zero compiled rules, zero log entries, not opted into via cluster configuration — and is not a contributing factor.
 
-**Current state:** the SYN packet is accepted by the kernel (`connect()` returns `EINPROGRESS`, not an immediate error) but never physically transmits onto the bridge. This is consistent across every layer that can be directly inspected. Root cause remains undetermined.
+**Current state:** the SYN packet is accepted by the kernel (`connect()` returns `EINPROGRESS`, not an immediate error) but never physically transmits onto the bridge. This is consistent across every layer that can be directly inspected. Root cause identified as of Aug 30, 2026 (Proxmox `firewall=1` + `br_netfilter` NAT interaction, confirmed via toggle test on VM104 — general NAT-path mechanism, distinct from the PLC-specific toggle described above). A host reboot on approximately Aug 28–30 cleared the symptom on VM101; re-testing Aug 31 confirms the PLC-to-historian connection now succeeds. The underlying condition is not fixed — `firewall=1` remains set, and the anomaly could recur without a permanent remediation (e.g., disabling bridge-netfilter or restructuring the NAT path).
 
 **Not yet attempted (documented for any future investigation):** live kernel packet tracing (`nft monitor`, `iptables -j LOG`); bridge port/STP state inspection on the PLC's tap interface; interface-level statistics via `ethtool -S`; QEMU device-level debug via `qm monitor`.
 
-**Disposition:** the network architecture was reframed so the PLC does not require direct historian egress (Section 5). This anomaly does not block the segmentation objective and is documented here as a legitimate, thoroughly-evidenced open finding.
+**Disposition:** the network architecture was reframed so the PLC does not require direct historian egress (Section 5). A subsequent host reboot (approx. Aug 28–30) cleared the transient conntrack state; re-testing Aug 31 confirms PLC→historian now connects (`firewall=1` still set on VM101). The anomaly does not block the segmentation objective and is documented here as a legitimate, thoroughly-evidenced finding with identified root cause.
 
 ---
 

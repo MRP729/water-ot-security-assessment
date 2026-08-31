@@ -1,0 +1,9 @@
+# Test: Engineering workstation (192.168.30.100) → Historian (192.168.20.101) TCP/5432
+# Source host: workstation-eng (VM103)
+# Command: nc -zv -w 10 192.168.20.101 5432
+# Date: 2026-08-31
+# Assessment context: after-state verification; no ACCEPT rule for Engineering in 102.fw
+# Expected result: timeout (default-deny enforced)
+# Counter: 0 pkts on Engineering source in tap102i0-IN chain
+nc: connect to 192.168.20.101 port 5432 (tcp) timed out: Operation now in progress
+exit: 1

@@ -1,0 +1,11 @@
+# Test: PLC (192.168.10.100) → Historian (192.168.20.101) TCP/5432
+# Source host: plc-controller (VM101)
+# Command: nc -zv -w 30 192.168.20.101 5432
+# Date: 2026-08-31
+# Assessment context: after-state re-verification
+# Note: During the Aug 25-26 assessment window this connection failed (egress anomaly,
+# Appendix A). A host reboot cleared transient conntrack state; firewall=1 remains set
+# on VM101 so the anomaly could recur. Live iptables counter tap102i0-IN as of 2026-08-31:
+# PLC rule = 1 pkt, HMI rule = 3 pkts.
+Connection to 192.168.20.101 5432 port [tcp/postgresql] succeeded!
+exit: 0

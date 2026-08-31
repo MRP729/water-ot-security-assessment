@@ -1,0 +1,4 @@
+# Aug 19, 2026 pre-conduit baseline — HMI→historian 5432 was blocked at this point
+# The HMI→historian conduit was added during the Aug 25-26 remediation window
+# See hmi-to-historian-5432-20260831.txt for after-state verification
+HMI-to-Historian-5432 exit code: 124

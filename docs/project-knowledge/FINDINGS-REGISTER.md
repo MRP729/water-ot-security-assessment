@@ -36,7 +36,7 @@ not been normalised, renumbered, or reconciled.
 | `Finding 2` | Historian database access controlled at the application layer only | `(High)` (Artifact-3:99) · `High` (RRA:49) | `Artifact-3-Segmentation-Assessment.md`:99<br>`RRA-Shenandoah-Valley-Water-Authority.md`:7*, 49, 50* |
 | `Finding 3` | Configuration-vs-enforcement gap on PLC and historian firewalls | `(Medium, methodological)` (Artifact-3:102) · `**Medium** (methodological)` (RRA:50) | `Artifact-3-Segmentation-Assessment.md`:102, 187<br>`AWWA-Assessment-Shenandoah-Valley-Water-Authority.md`:34, 46, 50<br>`Crosswalk-NIST80053-IEC62443-Shenandoah-Valley.md`:19<br>`EPA-Checklist-Shenandoah-Valley-Water-Authority.md`:43<br>`RRA-Shenandoah-Valley-Water-Authority.md`:7*, 50, 102, 104<br>`Artifact-6-Threat-Detection-Assessment.md`:63 (cited by name, not status-bearing) |
 | `Finding 4` | HMI web interface unencrypted | `(Medium)` (Artifact-3:105) · `**Medium**` (RRA:51) · `remains open` (RRA:91) | `Artifact-3-Segmentation-Assessment.md`:105<br>`Crosswalk-NIST80053-IEC62443-Shenandoah-Valley.md`:20<br>`EPA-Checklist-Shenandoah-Valley-Water-Authority.md`:39<br>`RRA-Shenandoah-Valley-Water-Authority.md`:7*, 51, 91, 101 |
-| `(New)` | Unresolved PLC-to-historian egress anomaly (Artifact 3, Appendix A) | `**Low / Informational**` (RRA:52) · `a legitimate, thoroughly-evidenced open finding` (Artifact-3:236) | `RRA-Shenandoah-Valley-Water-Authority.md`:52, 103<br>`Artifact-3-Segmentation-Assessment.md`:21, 191, 236 |
+| `Finding 3.1` | PLC-to-historian egress anomaly — root cause identified (Artifact 3, Appendix A) | `**Low / Informational**` (RRA:52) · root cause diagnosed via toggle test on VM104; symptom cleared by host reboot ~Aug 28–30, 2026; underlying condition persists, not permanently remediated (Artifact-3:234) | `RRA-Shenandoah-Valley-Water-Authority.md`:52, 67, 103<br>`Artifact-3-Segmentation-Assessment.md`:21, 124, 193, 234, 238 |
 | `Finding 6.1` | Stock `suricata.yaml` referenced a nonexistent capture interface (`eth0` vs. actual `ens18`), causing a 14,000+ restart crash loop while reporting `active` | not stated in `Finding N`/`Open`/`Remediated` vocabulary — narrative status is **Remediated** (interface corrected, zero restarts confirmed over a multi-day period) | `Artifact-6-Threat-Detection-Assessment.md`:51, 63 |
 | `Finding 6.2` | Custom detection rule silently not loaded due to a `default-rule-path` resolution mismatch (`/etc/suricata/rules/` vs. actual `/var/lib/suricata/rules`) | narrative status **Remediated** (rule relocated, loaded-rule count confirmed incremented) | `Artifact-6-Threat-Detection-Assessment.md`:59, 63 |
 | `Finding 6.3` | Sensor placement behind a default-deny firewall structurally limits visibility to permitted traffic only | **High significance**, stated `❌ Not achieved` in the posture table — open, not a remediation-track item | `Artifact-6-Threat-Detection-Assessment.md`:96, 110, 114, 116, 149, 174, 184, 186, 216 |
@@ -90,8 +90,8 @@ none of them a stable ID:
 | `(New)` — used as the literal ID cell in the vulnerability-mapping table | RRA:52 |
 | `Appendix A anomaly` | RRA:103 |
 | `one unresolved technical anomaly` | Artifact-3:21 |
-| `The PLC-to-historian egress anomaly (Appendix A)` | Artifact-3:191 |
-| `a legitimate, thoroughly-evidenced open finding` | Artifact-3:236 |
+| `The PLC-to-historian egress anomaly (Appendix A)` | Artifact-3:193 |
+| `Root cause identified as of Aug 30, 2026` | Artifact-3:234 |
 
 It is scored and carries a severity (`Low / Informational`, RRA:52) and a roadmap priority
 (`5 — Medium-term`, RRA:103), so it is being managed as a finding — but it cannot be

@@ -1,0 +1,4 @@
+# Aug 19, 2026 pre-conduit baseline — PLC→historian 5432 succeeded at this point
+# The PLC egress anomaly emerged after firewall=1 was enabled during remediation
+# See plc-to-historian-5432-20260831.txt for after-state re-verification
+PLC-to-Historian-5432 exit code: 0

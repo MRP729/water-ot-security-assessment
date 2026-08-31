@@ -49,7 +49,7 @@ Threat paths below reflect the actual conditions found at Shenandoah Valley Wate
 | Finding 2 | Historian PostgreSQL access controlled at application layer only, not network layer | **High** | Network-exploitable path to a service with a known-broad vulnerability history; network segmentation is the standard compensating control and was absent |
 | Finding 3 | Firewall configuration existed but was not enforced (PLC, Historian) | **Medium** (methodological) | Not directly exploitable itself, but it is the root enabler of Findings 1 and 2's network reachability — addressed via segmentation remediation, not a standalone patch |
 | Finding 4 | HMI web interface unencrypted (HTTP only) | **Medium** | Passive network position required (higher attacker cost than #1/#2); confidentiality impact on any future HMI credentials |
-| (New) | Unresolved PLC-to-historian egress anomaly (Artifact 3, Appendix A) | **Low / Informational** | Not an exploitable vulnerability — it is a control that fails *closed*, not open. Flagged for engineering follow-up, not risk-elevating on its own |
+| Finding 3.1 | PLC-to-historian egress anomaly — root cause identified (Artifact 3, Appendix A) | **Low / Informational** | Not an exploitable vulnerability — it is a control that fails *closed*, not open. Root cause diagnosed (Proxmox `firewall=1` + `br_netfilter` NAT interaction); symptom cleared by a host reboot but the underlying condition persists and could recur. Flagged for engineering follow-up (permanent remediation), not risk-elevating on its own |
 
 ---
 
@@ -64,7 +64,7 @@ Likelihood and impact scored 1 (low) – 5 (high). Likelihood reflects **pre-rem
 | Lateral movement from Engineering into Field/Control zone generally | 4 | 4 | 16 | **High** |
 | HMI session interception (unencrypted HTTP) | 2 | 3 | 6 | **Medium** |
 | Configuration-vs-enforcement gap recurring on a future host | 3 | 3 | 9 | **Medium** |
-| PLC-historian egress anomaly exploited as an attack vector | 1 | 2 | 2 | **Low** |
+| PLC-historian egress anomaly (Finding 3.1) exploited as an attack vector | 1 | 2 | 2 | **Low** |
 
 **Top risk driver:** the Critical-rated risk (PLC parameter modification) scores highest not because the technique is sophisticated — it is not — but because likelihood and impact are simultaneously maximal: the path required no special access and the consequence reaches the physical process directly. This is the risk profile most characteristic of OT environments generally, and is why segmentation was prioritized as the first remediation action ahead of the credential fix itself (a network path with a bad password is worse than a bad password with no path).
 
@@ -100,7 +100,7 @@ Likelihood and impact scored 1 (low) – 5 (high). Likelihood reflects **pre-rem
 | **2 — Immediate** | Extend credential review to HMI, given its new role as the sole conduit to PLC and historian | Residual risk (Section 6) | Low |
 | **3 — Near-term** | Add TLS to HMI web interface | Finding 4 | Medium |
 | **4 — Near-term** | Formalize a live-enforcement verification step (not just config review) into any future firewall change process, per Finding 3's lesson | Finding 3 | Low (procedural) |
-| **5 — Medium-term** | Resume investigation into PLC-to-historian egress anomaly if direct conduit is later required by an architecture change | Appendix A anomaly | Medium–High (unresolved after 14 hypotheses; may require vendor/platform-level escalation) |
+| **5 — Medium-term** | Implement a permanent fix for the PLC-to-historian egress anomaly (Finding 3.1) so the underlying condition cannot recur | Appendix A anomaly | Medium (root cause identified; requires a platform-level fix — e.g., disabling bridge-netfilter or restructuring the NAT path — not further investigation) |
 | **6 — Ongoing** | Re-run the Artifact 3 scan methodology periodically (quarterly suggested) to catch configuration drift, especially the configuration-vs-enforcement failure mode identified in Finding 3 | All findings | Low (repeatable, evidence methodology already built) |
 
 Priorities 1–2 are quick wins that close the highest-severity residual risk with minimal effort and should not wait for the broader Phase 4 package to complete. Priorities 3–4 are near-term hardening. Priority 5 is explicitly not urgent — Artifact 3 documents why the current HMI-relay architecture is an acceptable, arguably tighter alternative to the original direct-conduit design.

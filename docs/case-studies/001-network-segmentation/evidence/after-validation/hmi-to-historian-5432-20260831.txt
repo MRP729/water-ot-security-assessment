@@ -1,0 +1,7 @@
+# Test: HMI (192.168.20.100) → Historian (192.168.20.101) TCP/5432
+# Source host: hmi-scada (VM100)
+# Command: nc -zv -w 10 192.168.20.101 5432
+# Date: 2026-08-31
+# Assessment context: after-state verification, conduit authorized in 102.fw
+Connection to 192.168.20.101 5432 port [tcp/postgresql] succeeded!
+exit: 0
