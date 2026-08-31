@@ -5,14 +5,12 @@ boundaries with explicitly authorized conduits, as enforced by the Proxmox
 host-level firewall (`pve-firewall`) and documented in
 [Artifact 3](../artifacts/Artifact-3-Segmentation-Assessment.md).
 
-**Source of truth:** the live firewall state captured in
+**Source of truth:** the per-VM `.fw` copies in
+[`configs/firewall/network-segmentation/`](../../configs/firewall/network-segmentation/),
+re-exported from live host state on 2026-08-30, and the live-state capture in
 [`../project-knowledge/LAB-TOPOLOGY.md`](../project-knowledge/LAB-TOPOLOGY.md)
-(section "Proxmox firewall configuration") and the conduit list in Artifact 3 §5.
-The per-VM `.fw` copies in
-[`configs/firewall/network-segmentation/`](../../configs/firewall/network-segmentation/)
-are an **August 19 snapshot and are now behind the deployed policy** — see
-[Known drift](#known-drift-committed-policy-files-vs-live-state) below. This
-diagram is a reading aid, not an independent authority.
+(section "Proxmox firewall configuration"). This diagram is a reading aid, not an
+independent authority.
 
 ---
 
@@ -129,30 +127,26 @@ representative environment, not a claim of a real utility network.
 
 ---
 
-## Known drift: committed policy files vs. live state
+## Policy-file sync history
 
-The `.fw` files under `configs/firewall/network-segmentation/` were committed
-2026-08-19 and have not been re-synced from the deployed policy. As of the
-2026-08-30 `LAB-TOPOLOGY.md` capture they differ from live:
+The `.fw` files under `configs/firewall/network-segmentation/` were first
+committed 2026-08-19 and drifted from the deployed policy over the Aug 25–30
+assessment window: `102` gained the HMI→5432 conduit and a gateway-SSH rule,
+`101` gained a gateway-SSH rule, and `100` was never committed at all.
 
-| Policy | Committed repo copy | Live / deployed |
-|---|---|---|
-| `102` (historian) | 5432 from PLC only; no gateway SSH | 5432 from **PLC and HMI**; + SSH from `192.168.20.1` |
-| `101` (PLC) | no gateway-SSH rule | + SSH from `192.168.10.1` |
-| `100` (HMI) | **absent from repo** | present (SSH-only inbound, from `.20.1` and Engineering) |
+**Re-synced 2026-08-30** — the four files (`100/101/102/104`) now match live host
+state and `100-hmi-policy.fw` was added. See
+[`configs/firewall/network-segmentation/README.md`](../../configs/firewall/network-segmentation/README.md).
 
-Conduit 2 (HMI&rarr;historian) is the operationally important gap — it is the
-path the PLC's data actually takes, and it is missing from the committed copy.
-
-There is also a narrative/policy mismatch to reconcile: Artifact 3 §5 states the
-historian's 5432 is "permitted only from the HMI's IP (192.168.20.100)", but
-both the committed and the live `102.fw` also permit 5432 from the PLC's IP
-(`192.168.10.100`) — the conduit 3 rule, kept in place even though the egress
-anomaly makes it inert.
-
-**Flagged for the Phase 5.3 / 5.4 passes:** re-export the live `.fw` set into
-`configs/firewall/network-segmentation/`, add `100.fw`, and align Artifact 3 §5's
-wording with the deployed rule set.
+**Still open for the 5.4 pass:** Artifact 3 §5 says the historian's 5432 is
+"permitted only from the HMI's IP (192.168.20.100)" and lists PLC→Historian as
+"deliberately not implemented," but the deployed `102.fw` permits 5432 from
+*both* the PLC and the HMI — the PLC rule is present but inert (0 packets) because
+of the egress anomaly. The wording should be reconciled with the deployed rule
+set. Separately, the committed connectivity evidence in
+`docs/case-studies/001-network-segmentation/evidence/after-validation/` is the
+Aug 19 set and shows the pre-conduit state (PLC→5432 worked, HMI→5432 blocked) —
+the inverse of the current live state; it needs re-capture or a dated annotation.
 
 ---
 

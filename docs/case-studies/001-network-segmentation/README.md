@@ -298,6 +298,8 @@ The policies include:
 
 
 
+- `100-hmi-policy.fw`
+
 - `101-plc-policy.fw`
 
 - `102-historian-policy.fw`

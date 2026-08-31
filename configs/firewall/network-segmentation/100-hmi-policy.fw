@@ -1,9 +1,8 @@
 [OPTIONS]
 enable: 1
 policy_in: DROP
+policy_out: ACCEPT
 
 [RULES]
-IN ACCEPT -source 192.168.10.100 -p tcp -dport 5432
-IN ACCEPT -source 192.168.20.100 -p tcp -dport 5432
 IN ACCEPT -source 192.168.20.1 -p tcp -dport 22
 IN ACCEPT -source 192.168.30.0/24 -p tcp -dport 22
