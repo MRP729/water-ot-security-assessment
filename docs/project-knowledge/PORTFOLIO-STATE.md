@@ -1,8 +1,7 @@
 # Portfolio State
 
 **Generated on:** 2026-08-30 (updated four times — see revision notes below)
-**Scope:** skeleton only. The `Status` column is deliberately left as `TBD` for every row —
-completion state was **not** assessed or inferred. Fill it in manually.
+**Scope:** the `Status` column was filled in as of the 5th update (2026-08-31); all 12 artifacts are Complete. Earlier revisions of this file left it as `TBD` by design — see the revision notes below for how that changed.
 
 > **Revision note (1st update):** this file was first generated 2026-08-30 covering 8 artifacts. It was
 > then updated to cover 10 files following the addition of Artifacts 4, 5, and 6 (two files), and to
@@ -26,6 +25,16 @@ completion state was **not** assessed or inferred. Fill it in manually.
 > a Finding 2/3 status inconsistency was logged in `FINDINGS-REGISTER.md` for the 5.4 consistency
 > pass. `docs/build-journal.md` was reflowed to fix escaped-markdown corruption (no content
 > change). Commits `f770e2f`, `5de7ffc`, and the one finalizing this update.
+>
+> **Revision note (5th update, 2026-08-31): Phase 5 complete.** All of 5.1–5.4 closed. The
+> `Status` column below is now filled in — all 12 artifacts are complete. Artifact 3, RRA,
+> and `FINDINGS-REGISTER.md` were substantively re-edited this update (PLC-to-historian
+> egress anomaly re-verified and root-caused as Finding 3.1; Findings 2 and 3 formally marked
+> Remediated; Appendix B evidence index corrected; status vocabulary for Findings 6.1–7.3
+> normalized). Dates and word counts below are refreshed accordingly. The `git log --oneline
+> -20` and `git status --short` blocks further down are captures from the 3rd update
+> (pre-Phase-5) and are retained as historical snapshots, not current state — see the note
+> appended after each. Commits `f770e2f` through `a5ef209` (9 commits).
 
 ---
 
@@ -33,25 +42,27 @@ completion state was **not** assessed or inferred. Fill it in manually.
 
 | Filename | H1 Title | Word count | Last commit | Status |
 |---|---|---:|---|---|
-| `AWWA-Assessment-Shenandoah-Valley-Water-Authority.md` | AWWA Cybersecurity Self-Assessment | 1409 | 2026-08-27 | TBD |
-| `Artifact-3-Segmentation-Assessment.md` | OT/ICS Network Segmentation Assessment | 3463 | 2026-08-27 | TBD |
-| `Artifact-4-Asset-Inventory-Criticality.md` | OT Asset Inventory & Criticality Analysis | 1554 | 2026-08-27 | TBD |
-| `Artifact-5-ATTCK-Oldsmar-Case-Study.md` | MITRE ATT&CK for ICS Incident Mapping | 1499 | 2026-08-27 | TBD |
-| `Artifact-6-Mirroring-Investigation-Handoff.md` | Port Mirroring Investigation — Artifact 6 (Suricata Threat Detection) | 2189 | 2026-08-30 | TBD |
-| `Artifact-6-Threat-Detection-Assessment.md` | OT Threat Detection Assessment | 3127 | 2026-08-30 | TBD |
-| `Artifact-7-Water-Sector-Cyber-Risk-Package.md` | Water Sector Cyber Risk Package | 2291 | 2026-08-30 | TBD |
-| `Artifact-8-Client-Deliverable-Report.md` | OT Cybersecurity Assessment | 2708 | 2026-08-30 | TBD |
-| `Crosswalk-NIST80053-IEC62443-Shenandoah-Valley.md` | NIST 800-53 / IEC 62443 Crosswalk | 880 | 2026-08-27 | TBD |
-| `EPA-Checklist-Shenandoah-Valley-Water-Authority.md` | EPA Cybersecurity Checklist Assessment | 1485 | 2026-08-27 | TBD |
-| `ERP-Shenandoah-Valley-Water-Authority.md` | Emergency Response Plan — OT/ICS Environment | 1223 | 2026-08-26 | TBD |
-| `RRA-Shenandoah-Valley-Water-Authority.md` | Risk & Resilience Assessment | 1832 | 2026-08-30 | TBD |
+| `AWWA-Assessment-Shenandoah-Valley-Water-Authority.md` | AWWA Cybersecurity Self-Assessment | 1409 | 2026-08-27 | Complete |
+| `Artifact-3-Segmentation-Assessment.md` | OT/ICS Network Segmentation Assessment | 3819 | 2026-08-31 | Complete |
+| `Artifact-4-Asset-Inventory-Criticality.md` | OT Asset Inventory & Criticality Analysis | 1554 | 2026-08-27 | Complete |
+| `Artifact-5-ATTCK-Oldsmar-Case-Study.md` | MITRE ATT&CK for ICS Incident Mapping | 1499 | 2026-08-27 | Complete |
+| `Artifact-6-Mirroring-Investigation-Handoff.md` | Port Mirroring Investigation — Artifact 6 (Suricata Threat Detection) | 2271 | 2026-08-30 | Complete (paused investigation, documented as intentional) |
+| `Artifact-6-Threat-Detection-Assessment.md` | OT Threat Detection Assessment | 3127 | 2026-08-30 | Complete |
+| `Artifact-7-Water-Sector-Cyber-Risk-Package.md` | Water Sector Cyber Risk Package | 2291 | 2026-08-30 | Complete |
+| `Artifact-8-Client-Deliverable-Report.md` | OT Cybersecurity Assessment | 2708 | 2026-08-30 | Complete |
+| `Crosswalk-NIST80053-IEC62443-Shenandoah-Valley.md` | NIST 800-53 / IEC 62443 Crosswalk | 880 | 2026-08-27 | Complete |
+| `EPA-Checklist-Shenandoah-Valley-Water-Authority.md` | EPA Cybersecurity Checklist Assessment | 1485 | 2026-08-27 | Complete |
+| `ERP-Shenandoah-Valley-Water-Authority.md` | Emergency Response Plan — OT/ICS Environment | 1242 | 2026-08-30 | Complete |
+| `RRA-Shenandoah-Valley-Water-Authority.md` | Risk & Resilience Assessment | 1894 | 2026-08-31 | Complete |
 
 Word counts are `wc -w` over the raw markdown, so they include markdown syntax, table
 pipes, and link targets — treat them as relative magnitude, not prose length.
 
-Last-commit dates are `git log -1 --format=%ad --date=short -- <file>`. The RRA's date
-(2026-08-30) reflects the credential-remediation correction landing in this same update;
-its content was otherwise last substantively written 2026-08-27.
+Last-commit dates are `git log -1 --format=%ad --date=short -- <file>`, refreshed as of the
+5th update (2026-08-31). Artifact 3 and the RRA's 2026-08-31 dates reflect the PLC-to-historian
+egress anomaly re-verification and the Finding 2/3 remediation status update landing in the
+same session. The ERP's date (2026-08-30, previously misrecorded here as 2026-08-26) reflects
+its edit alongside Artifact 6a during the earlier finding-identifier-convention update.
 
 Note: filenames use three different naming conventions now — five are
 `<Type>-Shenandoah-Valley-...`, six are `Artifact-<n>-...`, and Artifact 6 alone has
@@ -59,7 +70,11 @@ Note: filenames use three different naming conventions now — five are
 deliverable, and `Artifact-6-Mirroring-Investigation-Handoff.md`, a linked but separate
 investigation record it explicitly defers to in its Section 7). No file is named
 `Artifact-1` or `Artifact-2`.
-**UNVERIFIED — confirm whether Artifacts 1 and 2 exist elsewhere or were never produced.**
+**RESOLVED:** Artifact 1 is the CISA training certificates (external evidence, not a written
+artifact — see `docs/training-certificates/`); Artifact 2 is
+`docs/operations-linkage/ICS401V-Operations-Linkage.md`, the operations-to-assessment reasoning
+document. Both exist; neither uses the `Artifact-N` filename convention because they predate it
+or serve a different structural role than the numbered assessment deliverables.
 
 **Resolved, 2026-08-30 (3rd update):** the previous version of this note flagged that no
 `Artifact-7` existed and the numbering jumped from 6 to 8. `Artifact-7-Water-Sector-Cyber-Risk-Package.md`
@@ -95,10 +110,11 @@ e37dae0 Merge training certificates and operations-linkage notes from portfolio 
 b11ed46 Initial commit: OT/ICS homelab foundation with Proxmox networking and troubleshooting documentation
 ```
 
-The repository contains 19 commits in total as of this update (was 17 after the 2nd update,
-15 after the 1st, 12 at first generation); `-20` returns all of them. The commit finalizing
-this 3rd update is not yet reflected in the list above, since `git log` was run before it
-was created.
+The repository contained 19 commits at the time of the 3rd update. As of the 5th update
+(2026-08-31), the repository has 29 commits — the 10 added since are Phase 5 packaging and
+consistency work (`f770e2f` through `a5ef209`), not reflected in the `-20` list above, which
+is retained as a pre-Phase-5 historical snapshot rather than refreshed. See `git log --oneline`
+directly for current history.
 
 ---
 
@@ -131,9 +147,8 @@ Note (2026-08-31): the GitHub account was renamed `MRP729` -> `MosesPerodin`; th
 
 ## Not assessed
 
-The following were explicitly out of scope for this skeleton and are **not** represented above:
+The following remain out of scope and are **not** represented above:
 
-- Completion or quality status of any artifact (the `Status` column is `TBD` by design)
 - Any file outside `docs/artifacts/` — including `README.md`, `LICENSE`, `configs/`, and
   the remainder of `docs/`
 - Evidence directories, `.nmap` / `.xml` / `.gnmap` / `.pcap` files, and Suricata rule files
