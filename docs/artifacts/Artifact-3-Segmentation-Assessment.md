@@ -96,10 +96,10 @@ OpenPLC's web dashboard (port 8080) accepted the vendor default credentials `ope
 
 This closes the single highest-severity open item identified across the Phase 4 assessment package.
 
-**Finding 2 — Historian database access controlled at the application layer only (High).**
+**Finding 2 — Historian database access controlled at the application layer only (High) — REMEDIATED Aug 26, 2026.**
 PostgreSQL's `pg_hba.conf` restricts connections to a single IP internally, but this control lived entirely inside the database engine. At the network layer — the layer an attacker touches first — the port was open to the entire Engineering zone. A network-layer control is the correct primary defense; an application-layer control alone is a single point of failure.
 
-**Finding 3 — Configuration-vs-enforcement gap on PLC and historian firewalls (Medium, methodological).**
+**Finding 3 — Configuration-vs-enforcement gap on PLC and historian firewalls (Medium, methodological) — REMEDIATED Aug 26, 2026.**
 Both hosts had Proxmox firewall configuration files (`101.fw`, `102.fw`) present and syntactically correct since Phase 1, specifying `policy_in: DROP`. Despite this, Proxmox was not enforcing them — the guest NICs had `firewall=0` set at the VM configuration level, and the compiled firewall ruleset showed no chains for either host's network interface. The configuration existed; enforcement did not. This is a general class of finding relevant to any environment audit: a documented control is not evidence the control is active, and configuration review must be paired with live-enforcement verification, not assumed from file contents.
 
 **Finding 4 — HMI web interface unencrypted (Medium).**
