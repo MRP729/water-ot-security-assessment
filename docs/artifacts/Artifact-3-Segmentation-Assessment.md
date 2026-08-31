@@ -257,6 +257,6 @@ The full IEC 62443 / NIST 800-53 control mapping is provided as a separate cross
 
 The August 19 files predate service installation (Phase 2) and establish that all hosts were clean, minimal-footprint Ubuntu images before OpenPLC/PostgreSQL/Apache were introduced — useful supporting context for the asset inventory in the Risk & Resilience Assessment, but not the primary segmentation evidence, which is the August 25/26 pair above.
 
-Full evidence set, including `.gnmap`/`.xml` companions, firewall policy files, and conduit connectivity test logs, is retained at `C:\Users\moses\Desktop\ot-ics-evidence-backup\` under chain-of-custody.
+The full evidence set — raw `nmap` `.xml`/`.gnmap` companions, the August 19 pre-service scans, firewall policy files, and conduit connectivity test logs — is retained offline under chain-of-custody and is available on request. The curated subset supporting the after-state claims in this document is committed under [`docs/case-studies/001-network-segmentation/evidence/`](../case-studies/001-network-segmentation/evidence/).
 
 **Note on prior (August 19) evidence directory:** an earlier evidence set at `C:\Users\moses\ot-ics-evidence-baseline-aug19\` is excluded from this assessment. Several files in that directory were deleted under unexplained circumstances between two directory listings, and no attempt is made here to reconstruct or rely on them — the August 25/26 evidence set is complete and sufficient on its own.
