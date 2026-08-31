@@ -1,0 +1,11 @@
+# Nmap 7.95 scan initiated Tue Aug 25 17:40:38 2026 as: /usr/lib/nmap/nmap -T3 -sV -p 5432,22 -oA supervisory-before 192.168.20.0/24
+Nmap scan report for 192.168.20.101
+Host is up (0.00028s latency).
+
+PORT     STATE SERVICE    VERSION
+22/tcp   open  ssh        OpenSSH 9.6p1 Ubuntu 3ubuntu13.18 (Ubuntu Linux; protocol 2.0)
+5432/tcp open  postgresql PostgreSQL DB 9.6.0 or later
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Tue Aug 25 17:41:13 2026 -- 256 IP addresses (1 host up) scanned in 35.39 seconds
