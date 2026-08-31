@@ -123,6 +123,8 @@ Artifact 8 index update was sequenced. See the task report for the final post-st
 ```
 origin	https://github.com/MRP729/water-ot-security-assessment.git (fetch)
 origin	https://github.com/MRP729/water-ot-security-assessment.git (push)
+
+Note (2026-08-31): the GitHub account was renamed `MRP729` -> `MosesPerodin`; the repository's canonical URL is now `https://github.com/MosesPerodin/water-ot-security-assessment.git` (GitHub redirects the old URL). The capture above reflects the remote as configured at generation time.
 ```
 
 ---
