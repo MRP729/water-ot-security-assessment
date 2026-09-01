@@ -136,6 +136,22 @@ make each worse.
 - [`docs/troubleshooting/`](docs/troubleshooting/) — Proxmox networking lessons learned
 - [`docs/project-knowledge/`](docs/project-knowledge/) — methodology, findings register, portfolio state, lab topology
 
+### Frameworks in scope
+
+| Framework | Role in the portfolio |
+|---|---|
+| IEC 62443 | Zone/conduit model, security levels, crosswalk target |
+| NIST SP 800-82 | OT-specific control guidance and rationale |
+| NIST SP 800-53 | Control catalogue, crosswalk source |
+| Purdue Model | Zone framing for segmentation work |
+| MITRE ATT&CK for ICS | Technique mapping, case-study structure |
+| AWIA §2013 | Risk and resilience assessment driver |
+| EPA 817-B-23-001 | Water-sector cybersecurity checklist |
+| AWWA assessment framework | Sector self-assessment |
+| NIST AI RMF 1.0 | Destination framework (Phase 6, post-MVP) |
+
+Control identifiers are verified against primary sources before they enter a document — see [`docs/project-knowledge/ASSESSMENT-METHODOLOGY.md`](docs/project-knowledge/ASSESSMENT-METHODOLOGY.md) for the full methodology this portfolio follows.
+
 ---
 
 ## 4. Finding Identifier Convention
