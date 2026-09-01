@@ -173,8 +173,9 @@ Summary:
 | ID | Finding | Status |
 |---|---|---|
 | 1 | Default credentials on the PLC web management interface | ✅ Remediated (Aug 27, 2026) |
-| 2 | Historian database access controlled at the application layer only (High) | ⚠️ Network path from Engineering closed by segmentation (Artifact 3); not formally closed in the register |
-| 3 | Configuration-vs-enforcement gap on PLC and historian firewalls (Medium) | ⚠️ Firewall enforcement now active (Artifact 3); not formally closed in the register |
+| 2 | Historian database access controlled at the application layer only (High) | ✅ Remediated (Aug 26, 2026) |
+| 3 | Configuration-vs-enforcement gap on PLC and historian firewalls (Medium) | ✅ Remediated (Aug 26, 2026) |
+| 3.1 | PLC-to-historian egress anomaly — root cause identified (Proxmox `firewall=1` + `br_netfilter` NAT interaction) | ⚠️ Root cause identified; symptom cleared by host reboot but underlying condition persists |
 | 4 | HMI web interface unencrypted (HTTP only, no TLS) (Medium) | ⬜ Open |
 | 6.1 | Stock Suricata config referenced a nonexistent interface — 14,000+ silent restart cycles | ✅ Remediated |
 | 6.2 | Custom detection rule silently not loaded — rule-path resolution mismatch | ✅ Remediated |
