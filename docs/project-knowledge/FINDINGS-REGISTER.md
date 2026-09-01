@@ -250,6 +250,8 @@ also explicitly states this register's identifier-scheme convention — see inco
 of the other three sources for a non-technical audience — and is not a definitional source by
 this register's convention, despite containing a "Consolidated Findings" section.
 
-## Open documentation item — flagged during Phase 5 (5.2 README review)
+## Documentation item — flagged during Phase 5, RESOLVED
 
-Findings 2 and 3 carry severity strings only (`(High)`, `(Medium, methodological)`) with no `Open`/`Remediated` status field in this register or in Artifact 3. Artifact 8's lettered re-presentation asserts `(Remediated)` for the corresponding findings (Finding C → Finding 2, Finding B → Finding 3). This is a genuine inconsistency between the client-facing report and the technical corpus, to be reconciled during the Phase 5.4 consistency pass per Methodology §8 step 5.
+Original flag (5.2 README review): Findings 2 and 3 carried severity strings only (`(High)`, `(Medium, methodological)`) with no `Open`/`Remediated` status field in this register or in Artifact 3, while Artifact 8's lettered re-presentation asserted `(Remediated)` for the corresponding findings (Finding C → Finding 2, Finding B → Finding 3) — an inconsistency between the client-facing report and the technical corpus.
+
+Resolved during the Phase 5.4 consistency pass (commit `2e050e3`): Findings 2 and 3 are now marked `Remediated (Aug 26, 2026)` in the register table above, in Artifact 3 (Section 4 headings), and in the RRA vulnerability table (RRA:49–50), consistent with Artifact 8. Both were closed by the network segmentation implemented and verified during the Aug 25–26 assessment window (distinct from Finding 1's credential remediation on Aug 27); network-layer closure was re-verified Aug 31, 2026.
