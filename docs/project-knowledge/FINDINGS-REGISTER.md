@@ -42,7 +42,7 @@ not been normalised, renumbered, or reconciled.
 | `Finding 6.3` | Sensor placement behind a default-deny firewall structurally limits visibility to permitted traffic only | `Open` — High significance; source doc's posture table marks it `❌ Not achieved`; not a remediation-track item, it is a structural limitation of the current architecture | `Artifact-6-Threat-Detection-Assessment.md`:96, 110, 114, 116, 149, 174, 184, 186, 216 |
 | `Finding 6.4` | Stock ET Open ruleset has no rate-based SSH credential-guessing detection | `Open` — High significance; source doc's posture table marks it `❌ Not achieved` | `Artifact-6-Threat-Detection-Assessment.md`:118, 130, 132, 150, 184 |
 | `Finding 7.1` | No multi-factor authentication anywhere in the OT environment | `Open` — High priority (source doc: `*(Open, High priority)*`) | `Artifact-7-Water-Sector-Cyber-Risk-Package.md`:65, 166 |
-| `Finding 7.2` | No backup or tested recovery capability for OT systems | `Open` — High priority (source doc: `*(Open, High priority)*`) | `Artifact-7-Water-Sector-Cyber-Risk-Package.md`:75, 166 |
+| `Finding 7.2` | No backup or tested recovery capability for OT systems | `Open` — High priority (source doc: `*(Open, High priority)*`) | `Artifact-7-Water-Sector-Cyber-Risk-Package.md`:75, 166<br>`docs/evidence/backup-posture-20260901.txt` (hypervisor-level corroboration, captured 2026-09-01) |
 | `Finding 7.3` | No named accountability or change control for OT cybersecurity | `Open` — High priority (source doc: `*(Open, High priority)*`) | `Artifact-7-Water-Sector-Cyber-Risk-Package.md`:85, 91, 166 |
 
 \* Reference occurs in a **plural or range form** (`Findings 1–4`, `Findings 1 and 2`) rather than

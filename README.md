@@ -182,7 +182,7 @@ Summary:
 | 6.3 | Sensor behind default-deny firewall structurally cannot see blocked traffic | ⬜ Open |
 | 6.4 | Stock ET Open ruleset has no rate-based SSH brute-force detection | ⬜ Open |
 | 7.1 | No multi-factor authentication anywhere in the OT environment | ⬜ Open (High) |
-| 7.2 | No backup or tested recovery capability for OT systems | ⬜ Open (High) |
+| 7.2 | No backup or tested recovery capability for OT systems | ⬜ Open (High) — hypervisor-level confirmation: [`docs/evidence/backup-posture-20260901.txt`](docs/evidence/backup-posture-20260901.txt) |
 | 7.3 | No named OT cybersecurity accountability or change control | ⬜ Open (High) |
 
 ---

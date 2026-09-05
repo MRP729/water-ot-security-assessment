@@ -1,0 +1,29 @@
+# Hypervisor backup/recovery posture check — supports Finding 7.2
+# Captured: 2026-09-01
+# Host: pve5820
+
+=== /var/lib/vz/dump/ (backup archives) ===
+[empty - no archive ever created]
+
+=== Scheduled backup jobs (/etc/pve/jobs.cfg) ===
+[none]
+
+=== vzdump.cron ===
+[empty - auto-generated header only]
+
+=== /etc/vzdump.conf ===
+[no non-default settings]
+
+=== Backup storage targets ===
+Only 'local' (dir type, supports backup content, holds nothing)
+No NFS / Proxmox Backup Server / off-node storage configured
+
+=== VM snapshots, all 6 VMs (100-105) ===
+[none - every VM shows only 'current']
+
+=== Conclusion ===
+Zero backup capability and zero recovery capability exist at the hypervisor
+level for any VM in this lab, as of 2026-09-01. Directly corroborates
+Finding 7.2 (No backup or tested recovery capability for OT systems),
+which previously rested on an assessment-time observation without direct
+hypervisor-level evidence.
